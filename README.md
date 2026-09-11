@@ -12,7 +12,7 @@ Maqueta de la nueva web de **Wisi Fensterdienst GmbH** (Albegg 2, 8840 Einsiedel
 
 ## Ver la web
 
-Abrir `index.html` en el navegador, o la dirección de GitHub Pages del repositorio (Settings → Pages).
+Abrir `index.html` en el navegador, o https://dreamlikew.github.io/wisi-fensterdienst/.
 
 ## Publicar (deploy)
 
@@ -24,7 +24,7 @@ La web es un único `index.html` estático: no hay que instalar nada ni compilar
 
 1. Clonar:
    ```
-   git clone https://github.com/USUARIO_DE_AL/wisi-fensterdienst.git
+   git clone https://github.com/dreamlikew/wisi-fensterdienst.git
    cd wisi-fensterdienst
    ```
 2. Llevarlo a tu propio repositorio (opcional):
