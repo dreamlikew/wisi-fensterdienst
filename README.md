@@ -3,7 +3,7 @@
 Maqueta de la nueva web de **Wisi Fensterdienst GmbH** (Albegg 2, 8840 Einsiedeln).
 
 - Toda la web está en un único archivo: `index.html` (textos, estilos, código y fotos incluidas).
-- Idiomas: alemán suizo (por defecto), inglés y español. Se cambian desde el panel **Debug** (abajo a la derecha).
+- Idiomas: alemán suizo (por defecto), inglés y español. Se cambian desde el panel **Debug** (abajo a la derecha). El panel está oculto: aparece o desaparece con **clic derecho en el logo**; el navegador lo recuerda.
 - Modo edición: desde el panel Debug. En modo edición se pueden reordenar las secciones de la portada arrastrando el asa azul; el orden se guarda en el navegador y "↺ Orden original" lo deshace.
 - Todas las páginas salvo la portada y la 404 piden el PIN `0000`, cada vez que se entra. Es solo una cortina visual: el contenido está en el archivo y cualquiera puede verlo.
 - Ratgeber (`#/ratgeber`): los 8 artículos de fensterdienst.pages.dev/ratgeber, en alemán (original), inglés y español. Sustituye a la antigua página de proyectos.
@@ -20,7 +20,6 @@ GitHub Pages sirve la rama `main` desde la raíz. Cada `git push` a `main` actua
 
 ## Créditos
 
-- Fotos de Wisi Fensterdienst: propiedad de Wisi Fensterdienst GmbH.
-- Foto de Einsiedeln del banner: Chris.urs-o, CC BY-SA 3.0 (Wikimedia Commons). El crédito figura en el pie de la web.
+- Fotos: todas son de Wisi Fensterdienst GmbH. No hay fotos de plantilla ni de terceros.
 - Códigos postales: Amtliches Ortschaftenverzeichnis, © swisstopo (datos abiertos).
 - Base de la maqueta: plantilla Webflow "Repairly". Comprobad que la licencia de la plantilla cubre este uso antes de publicarla como web definitiva.
