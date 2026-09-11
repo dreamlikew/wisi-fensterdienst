@@ -5,7 +5,7 @@ Maqueta de la nueva web de **Wisi Fensterdienst GmbH** (Albegg 2, 8840 Einsiedel
 - Toda la web está en un único archivo: `index.html` (textos, estilos, código y fotos incluidas).
 - Idiomas: alemán suizo (por defecto), inglés y español. Se cambian desde el panel **Debug** (abajo a la derecha).
 - Modo edición: desde el panel Debug. En modo edición se pueden reordenar las secciones de la portada arrastrando el asa azul; el orden se guarda en el navegador y "↺ Orden original" lo deshace.
-- Las páginas interiores piden la contraseña `0000`. Es solo una cortina visual: el contenido está en el archivo y cualquiera puede verlo.
+- Todas las páginas salvo la portada y la 404 piden el PIN `0000`. Es solo una cortina visual: el contenido está en el archivo y cualquiera puede verlo.
 
 ## Ver la web
 
