@@ -18,6 +18,24 @@ Abrir `index.html` en el navegador, o la dirección de GitHub Pages del reposito
 
 GitHub Pages sirve la rama `main` desde la raíz. Cada `git push` a `main` actualiza la web en uno o dos minutos.
 
+## Clonar y publicar por tu cuenta (para Sofía)
+
+La web es un único `index.html` estático: no hay que instalar nada ni compilar.
+
+1. Clonar:
+   ```
+   git clone https://github.com/USUARIO_DE_AL/wisi-fensterdienst.git
+   cd wisi-fensterdienst
+   ```
+2. Llevarlo a tu propio repositorio (opcional):
+   ```
+   git remote set-url origin https://github.com/BALIFlow/wisi-fensterdienst.git
+   git push -u origin main
+   ```
+3. Publicar en Cloudflare Pages, de una de estas dos formas:
+   - Desde el panel: Workers & Pages → Create → Pages → conectar el repositorio. Sin comando de build; directorio de salida `/`.
+   - Desde la terminal: `npx wrangler pages deploy . --project-name wisi-fensterdienst`
+
 ## Créditos
 
 - Fotos: todas son de Wisi Fensterdienst GmbH. No hay fotos de plantilla ni de terceros.
