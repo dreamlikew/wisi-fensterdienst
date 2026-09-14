@@ -13718,6 +13718,124 @@ window.__renderInitial=function(){route()};
     letter-spacing:-.2px}
   .wwa-sec.wb0 .wwa-tile .wt-s{margin-top:4px!important;font-size:12px!important}
   .wwa-sec.wb0 .wwa-tiles{gap:10px!important}
+}
+
+/* ==================================================================
+   OCTAVA PASADA (comentarios desde el iPhone)
+   ================================================================== */
+
+/* --- 62. Comparador Vorher/Nachher con el dedo ------------------- */
+/* Usa eventos pointer, pero sin touch-action el navegador toma el
+   gesto como scroll y cancela el arrastre (pointercancel). Con pan-y
+   el scroll vertical sigue funcionando y el horizontal mueve la foto. */
+@media (max-width:991px){
+  .stc-card,.stc-wrap,.stc-handle{touch-action:pan-y!important;-webkit-user-select:none;user-select:none}
+  .stc-card img{-webkit-user-drag:none;pointer-events:none}
+  .stc-handle{width:48px!important;height:48px!important}
+}
+
+/* --- 63. "So arbeiten wir" con mas aire -------------------------- */
+@media (max-width:767px){
+  .wq-list{padding-left:34px!important}
+  .wq-list > .wq-item + .wq-item{margin-top:6px!important}
+  .wq-item{padding-top:16px!important;padding-bottom:16px!important;
+    padding-left:16px!important;border-radius:12px!important}
+  .wq-item:not(.wq-on){padding-right:44px!important}
+  .wq-item.wq-on{padding-right:18px!important}
+  .wq-item .wq-ico{margin-right:6px!important}
+  .wq-item.wq-on .wq-desc{margin-top:8px!important}
+  .wq-media{margin-bottom:28px!important}
+}
+
+/* --- 64. "Was wir reparieren": texto e iconos -------------------- */
+/* "Fenstersanierung" medía unos 130px en un hueco de 103 y se montaba
+   sobre el icono. Cabecera mas alta e igual en todas, y la palabra se
+   parte con guion (la pagina esta en de-CH, el navegador sabe partir
+   en aleman). */
+@media (max-width:767px){
+  .service-section .service-text-block{min-height:64px!important;
+    align-items:center!important;padding:12px 10px 12px 12px!important;gap:6px!important}
+  .service-section .service-card-title{font-size:14.5px!important;line-height:1.25!important;
+    -webkit-hyphens:auto!important;hyphens:auto!important;
+    hyphenate-limit-chars:6 3 3;overflow-wrap:break-word!important;
+    flex:1 1 auto!important;min-width:0!important}
+  .service-section .service-card-arrow-icon{flex:0 0 22px!important;width:22px!important;
+    display:flex!important;align-items:center;justify-content:center}
+  .service-section .service-card-arrow-icon svg{width:20px!important;height:20px!important}
+}
+
+/* --- 65. Formulario: codigo postal y teclado --------------------- */
+@media (max-width:767px){
+  .wwa-sec.wb0 .wwa-plzbox{flex-wrap:wrap!important;row-gap:6px}
+  .wwa-sec.wb0 .wwa-plzbox .wwa-zone{flex:1 0 100%!important;text-align:left!important}
+  .wwa-sec.wb0 .wwa-plzbox .wwa-ortout{min-width:0;flex:1 1 auto}
+}
+@media (max-width:900px){
+  /* con el teclado abierto la barra de vista previa tapaba los botones */
+  body.wisi-kb .wisi-prev{transform:translateY(110%)!important}
+}
+/* --- 66. Vista previa como hoja inferior tactil ------------------ */
+/* Antes toda la barra abria y cerraba al tocarla, asi que intentar
+   hacer scroll dentro la cerraba. Ahora solo la cabecera abre y
+   cierra, el mensaje hace scroll por dentro sin arrastrar la pagina,
+   hay fondo oscuro para cerrar y se puede deslizar arriba y abajo. */
+@media (max-width:900px){
+  .wisi-prev,.wisi-prev.wisi-prev-open{max-height:none!important;overflow:visible!important;
+    cursor:default!important;border-radius:18px 18px 0 0;border-top:0!important;
+    box-shadow:0 -12px 34px -14px rgba(0,0,0,.45)!important;
+    padding-bottom:env(safe-area-inset-bottom)}
+  .wisi-prev::before{top:8px!important;width:42px!important;margin-left:-21px!important;
+    height:5px!important;border-radius:3px!important;pointer-events:none}
+
+  .wisi-prev-label{appearance:none;-webkit-appearance:none;border:0;background:transparent;
+    width:100%;margin:0;cursor:pointer;touch-action:none;
+    display:flex!important;align-items:center;gap:10px;
+    padding:22px 16px 10px!important;min-height:52px;
+    font:inherit;text-align:left;-webkit-tap-highlight-color:transparent}
+  .wisi-prev-label::before{flex:0 0 auto}
+  .wisi-prev-tit{flex:1 1 auto;min-width:0;font-size:11.5px;font-weight:700;letter-spacing:.5px;
+    text-transform:uppercase;color:#5c5f66;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wisi-prev-acc{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+    padding:7px 12px;border-radius:999px;background:#009BD2;color:#fff;
+    font-size:13px;font-weight:600;letter-spacing:0;text-transform:none}
+  .wisi-prev-label span{margin-left:0!important}
+  .wisi-prev-chev{width:7px;height:7px;border-right:2px solid currentColor;
+    border-bottom:2px solid currentColor;transform:translateY(2px) rotate(-135deg);
+    transition:transform .25s ease}
+  .wisi-prev-open .wisi-prev-chev{transform:translateY(-2px) rotate(45deg)}
+
+  .wisi-prev-body{max-height:92px;overflow:hidden;position:relative;
+    transition:max-height .3s ease;cursor:pointer}
+  .wisi-prev-body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;
+    background:linear-gradient(rgba(255,255,255,0),#fff);pointer-events:none;transition:opacity .2s}
+  .wisi-prev-open .wisi-prev-body{max-height:calc(68vh - 60px);overflow-y:auto;cursor:auto;
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+  .wisi-prev-open .wisi-prev-body::after{opacity:0}
+  .wisi-prev .wwa-screen{padding:0 14px 14px!important}
+
+  .wisi-prev-bd{position:fixed;inset:0;z-index:59;background:rgba(17,19,22,.42);
+    opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .wisi-prev-bd.on{opacity:1;pointer-events:auto}
+  body.wisi-prev-lock{overflow:hidden!important;overscroll-behavior:none}
+
+  @keyframes wisiPing{0%{box-shadow:0 -12px 34px -14px rgba(0,0,0,.45),0 0 0 0 rgba(37,211,102,.55)}
+    100%{box-shadow:0 -12px 34px -14px rgba(0,0,0,.45),0 0 0 14px rgba(37,211,102,0)}}
+  .wisi-prev-ping{animation:wisiPing .9s ease-out}
+
+  body.wisi-prev-visible .wwa-sec.wb0 .wwa-form{padding-bottom:170px!important}
+}
+@media (max-width:900px) and (prefers-reduced-motion:reduce){
+  .wisi-prev-ping{animation:none}
+}
+
+/* --- 67. Contraste de la cabecera de la hoja --------------------- */
+/* Una regla anterior (.wisi-prev-label span) ponia gris y sin
+   mayusculas a todo span de la cabecera, incluida la pildora azul. */
+@media (max-width:900px){
+  .wisi-prev .wisi-prev-label span.wisi-prev-tit{color:#5c5f66!important;
+    text-transform:uppercase!important;letter-spacing:.5px!important;font-weight:700!important}
+  .wisi-prev .wisi-prev-label span.wisi-prev-acc{color:#fff!important;
+    text-transform:none!important;letter-spacing:0!important;font-weight:600!important}
 }</style><script id="wisi-movil-js">/* Movil: dos retoques que no se pueden hacer solo con CSS.
    1. Mueve la maqueta del chat justo encima del formulario, para que se
       vea lo que se va a enviar mientras se rellena, no al final.
@@ -13728,8 +13846,13 @@ window.__renderInitial=function(){route()};
   var MQ = window.matchMedia('(max-width:767px)');
   var MQW = window.matchMedia('(max-width:900px)');
 
-  var barra = null;
+  var barra = null, cuerpo = null, fondo = null, etiqueta = null;
 
+  // Hoja inferior tactil con la vista previa del mensaje:
+  // - cerrada: cabecera con asa y las primeras lineas del mensaje
+  // - se abre tocando la cabecera o deslizando hacia arriba
+  // - abierta: el mensaje hace scroll dentro sin mover la pagina, y se
+  //   cierra con el boton, tocando el fondo o deslizando hacia abajo
   function montarBarra(){
     var r = document.querySelector('.wwa-r');
     var sec = document.querySelector('.wwa-sec');
@@ -13738,10 +13861,12 @@ window.__renderInitial=function(){route()};
     if(!MQW.matches){
       // en escritorio la maqueta vuelve a su sitio
       if(barra && barra.parentNode){
+        cerrar();
         var host = document.querySelector('.wwa-in');
         if(host) host.appendChild(r);
         barra.parentNode.removeChild(barra);
-        barra = null;
+        if(fondo && fondo.parentNode) fondo.parentNode.removeChild(fondo);
+        barra = cuerpo = fondo = etiqueta = null;
         document.body.classList.remove('wisi-prev-visible');
       }
       return;
@@ -13750,24 +13875,52 @@ window.__renderInitial=function(){route()};
 
     barra = document.createElement('div');
     barra.className = 'wisi-prev';
-    var etiqueta = document.createElement('div');
+    barra.setAttribute('role', 'region');
+
+    etiqueta = document.createElement('button');
+    etiqueta.type = 'button';
     etiqueta.className = 'wisi-prev-label';
+    etiqueta.setAttribute('aria-expanded', 'false');
+
+    cuerpo = document.createElement('div');
+    cuerpo.className = 'wisi-prev-body';
+    cuerpo.appendChild(r);
+
     barra.appendChild(etiqueta);
-    barra.appendChild(r);
-    ponerEtiqueta(etiqueta);
-    // si se cambia de idioma desde el panel, se traduce la etiqueta
+    barra.appendChild(cuerpo);
+
+    fondo = document.createElement('div');
+    fondo.className = 'wisi-prev-bd';
+
+    ponerEtiqueta();
     if(window.MutationObserver){
-      new MutationObserver(function(){ ponerEtiqueta(etiqueta); })
+      new MutationObserver(ponerEtiqueta)
         .observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
     }
     // dentro de .wwa-sec para que siga valiendo el tema claro
-    // (.wwa-sec.wb0 .wwa-bub); position:fixed funciona igual
+    sec.appendChild(fondo);
     sec.appendChild(barra);
 
-    barra.addEventListener('click', function(){
-      barra.classList.toggle('wisi-prev-open');
-      if(!barra.classList.contains('wisi-prev-open')) alFinal();
-    });
+    etiqueta.addEventListener('click', function(){ estaAbierta() ? cerrar() : abrir(); });
+    fondo.addEventListener('click', cerrar);
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') cerrar(); });
+
+    // cerrada, tocar las lineas del mensaje tambien la abre
+    cuerpo.addEventListener('click', function(){ if(!estaAbierta()) abrir(); });
+
+    // deslizar: arriba abre, abajo cierra (desde la cabecera siempre;
+    // desde el mensaje solo si ya esta arriba del todo)
+    var y0 = null, desdeCab = false;
+    barra.addEventListener('touchstart', function(e){
+      y0 = e.touches[0].clientY;
+      desdeCab = !!e.target.closest('.wisi-prev-label') || !estaAbierta();
+    }, {passive:true});
+    barra.addEventListener('touchend', function(e){
+      if(y0 === null) return;
+      var dy = e.changedTouches[0].clientY - y0; y0 = null;
+      if(dy < -35 && !estaAbierta()) abrir();
+      else if(dy > 45 && estaAbierta() && (desdeCab || cuerpo.scrollTop <= 0)) cerrar();
+    }, {passive:true});
 
     // solo se ve mientras el formulario esta en pantalla
     if('IntersectionObserver' in window){
@@ -13775,7 +13928,7 @@ window.__renderInitial=function(){route()};
         var dentro = entradas[0].isIntersecting;
         barra.classList.toggle('wisi-prev-on', dentro);
         document.body.classList.toggle('wisi-prev-visible', dentro);
-        if(!dentro) barra.classList.remove('wisi-prev-open');
+        if(!dentro) cerrar();
       }, {rootMargin:'-10% 0px -10% 0px'});
       io.observe(sec);
     } else {
@@ -13783,36 +13936,61 @@ window.__renderInitial=function(){route()};
       document.body.classList.add('wisi-prev-visible');
     }
 
-    // al rellenarse el mensaje, mostrar siempre la ultima linea
+    // al rellenarse el mensaje: cerrada se vuelve al principio y la
+    // barra hace un pequeno destello para que se note el cambio
     var bub = r.querySelector('.wwa-bub.wwa-msg');
     if(bub && window.MutationObserver){
-      var mo = new MutationObserver(function(){ alFinal(); });
-      mo.observe(bub, {childList:true, characterData:true, subtree:true});
+      var t = null;
+      new MutationObserver(function(){
+        alFinal();
+        if(estaAbierta()) return;
+        barra.classList.remove('wisi-prev-ping'); void barra.offsetWidth;
+        barra.classList.add('wisi-prev-ping');
+        clearTimeout(t); t = setTimeout(function(){ barra && barra.classList.remove('wisi-prev-ping'); }, 900);
+      }).observe(bub, {childList:true, characterData:true, subtree:true});
     }
     alFinal();
   }
 
+  function estaAbierta(){ return !!(barra && barra.classList.contains('wisi-prev-open')); }
+  function abrir(){
+    if(!barra) return;
+    barra.classList.add('wisi-prev-open');
+    document.body.classList.add('wisi-prev-lock');
+    if(fondo) fondo.classList.add('on');
+    etiqueta.setAttribute('aria-expanded', 'true');
+    ponerEtiqueta();
+  }
+  function cerrar(){
+    if(!barra) return;
+    barra.classList.remove('wisi-prev-open');
+    document.body.classList.remove('wisi-prev-lock');
+    if(fondo) fondo.classList.remove('on');
+    if(etiqueta){ etiqueta.setAttribute('aria-expanded', 'false'); ponerEtiqueta(); }
+    alFinal();
+  }
   function alFinal(){
-    // se ensena siempre el principio del mensaje
-    if(!barra || barra.classList.contains('wisi-prev-open')) return;
-    try { barra.scrollTop = 0; } catch(e){}
+    // cerrada se ensena siempre el principio del mensaje
+    if(!cuerpo || estaAbierta()) return;
+    try { cuerpo.scrollTop = 0; } catch(e){}
   }
 
   var TEXTOS = {
-    de: ['Vorschau Ihrer WhatsApp-Nachricht', 'Antippen'],
-    en: ['Preview of your WhatsApp message', 'Tap to open'],
-    es: ['Vista previa de tu mensaje', 'Toca para ver']
+    de: ['Vorschau Ihrer WhatsApp-Nachricht', 'Ansehen', 'Schliessen'],
+    en: ['Preview of your WhatsApp message', 'View', 'Close'],
+    es: ['Vista previa de tu mensaje', 'Ver', 'Cerrar']
   };
-  function ponerEtiqueta(el){
+  function ponerEtiqueta(){
+    if(!etiqueta) return;
     var l = (document.documentElement.lang || 'de').slice(0,2).toLowerCase();
     var t = TEXTOS[l] || TEXTOS.de;
-    el.innerHTML = '';
-    el.appendChild(document.createTextNode(t[0]));
-    var s = document.createElement('span');
-    s.textContent = t[1];
-    el.appendChild(s);
+    etiqueta.innerHTML = '';
+    var tit = document.createElement('span'); tit.className = 'wisi-prev-tit'; tit.textContent = t[0];
+    var acc = document.createElement('span'); acc.className = 'wisi-prev-acc';
+    acc.appendChild(document.createTextNode(estaAbierta() ? t[2] : t[1]));
+    var ch = document.createElement('i'); ch.className = 'wisi-prev-chev'; acc.appendChild(ch);
+    etiqueta.appendChild(tit); etiqueta.appendChild(acc);
   }
-
 
   var intentos = 0;
   function ponerFurgoneta(){
@@ -13876,7 +14054,55 @@ window.__renderInitial=function(){route()};
     }
   }
 
-  function init(){ montarBarra(); ponerFurgoneta(); recortarAntetitulo(); partirBarras();
+
+  // Comparador: en movil, al tocar una foto que no esta activa se activa
+  // y ya se puede arrastrar en el mismo gesto (antes hacian falta dos).
+  function comparadorTactil(){
+    if(!MQ.matches) return;
+    var K = document.querySelectorAll('.stc-card');
+    for(var i=0;i<K.length;i++){
+      if(K[i].dataset.wisiTouch) continue;
+      K[i].dataset.wisiTouch = '1';
+      K[i].addEventListener('pointerdown', function(){
+        if(!MQ.matches || this.classList.contains('on')) return;
+        for(var j=0;j<K.length;j++) K[j].classList.remove('on');
+        this.classList.add('on');
+      }, true);
+    }
+  }
+
+  // Formulario: al pulsar Weiter o Zurueck se sube al principio del paso,
+  // porque cada paso mide distinto y se quedaba uno en una zona vacia.
+  // Y con el teclado abierto se esconde la barra de vista previa.
+  function formularioMovil(){
+    var form = document.querySelector('.wwa-form');
+    if(!form || form.dataset.wisiNav) return;
+    form.dataset.wisiNav = '1';
+    form.addEventListener('click', function(e){
+      if(!MQW.matches) return;
+      var b = e.target.closest('button, a');
+      if(!b || b.closest('.wwa-chips')) return;
+      var txt = (b.textContent||'').trim().toLowerCase();
+      var esNav = b.closest('.wwa-nav') || /weiter|zur\u00fcck|zuruck|ohne foto|next|back|siguiente|atr\u00e1s/.test(txt);
+      if(!esNav) return;
+      setTimeout(function(){
+        var top = document.querySelector('.wwa-prog') || form;
+        var y = top.getBoundingClientRect().top + window.pageYOffset - 16;
+        if(Math.abs(window.pageYOffset - y) > 40) window.scrollTo({top:y, behavior:'smooth'});
+      }, 80);
+    });
+    form.addEventListener('focusin', function(e){
+      if(MQW.matches && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) document.body.classList.add('wisi-kb');
+    });
+    form.addEventListener('focusout', function(){
+      setTimeout(function(){
+        var a = document.activeElement;
+        if(!a || !/INPUT|TEXTAREA|SELECT/.test(a.tagName)) document.body.classList.remove('wisi-kb');
+      }, 120);
+    });
+  }
+
+  function init(){ montarBarra(); ponerFurgoneta(); recortarAntetitulo(); partirBarras(); comparadorTactil(); formularioMovil();
     if(window.MutationObserver){ new MutationObserver(function(){ setTimeout(partirBarras, 50); })
       .observe(document.documentElement,{attributes:true,attributeFilter:['lang']}); }
   }
@@ -13884,6 +14110,6 @@ window.__renderInitial=function(){route()};
   else window.addEventListener('load', function(){ setTimeout(init, 400); });
   (MQW.addEventListener ? MQW.addEventListener('change', montarBarra)
                         : MQW.addListener(montarBarra));
-  function onMQ(){ ponerFurgoneta(); recortarAntetitulo(); partirBarras(); }
+  function onMQ(){ ponerFurgoneta(); recortarAntetitulo(); partirBarras(); comparadorTactil(); }
   (MQ.addEventListener ? MQ.addEventListener('change', onMQ) : MQ.addListener(onMQ));
 })();</script>
