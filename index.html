@@ -13731,7 +13731,6 @@ window.__renderInitial=function(){route()};
 @media (max-width:991px){
   .stc-card,.stc-wrap,.stc-handle{touch-action:pan-y!important;-webkit-user-select:none;user-select:none}
   .stc-card img{-webkit-user-drag:none;pointer-events:none}
-  .stc-handle{width:48px!important;height:48px!important}
 }
 
 /* --- 63. "So arbeiten wir" con mas aire -------------------------- */
@@ -13836,6 +13835,44 @@ window.__renderInitial=function(){route()};
     text-transform:uppercase!important;letter-spacing:.5px!important;font-weight:700!important}
   .wisi-prev .wisi-prev-label span.wisi-prev-acc{color:#fff!important;
     text-transform:none!important;letter-spacing:0!important;font-weight:600!important}
+}
+
+/* ==================================================================
+   NOVENA PASADA
+   ================================================================== */
+
+/* --- 68. Tirador del comparador ---------------------------------- */
+/* Retirada la regla que fijaba .stc-handle a 48x48px: ese elemento es
+   la linea vertical entera y el tirador va centrado dentro. Con 48px
+   de alto quedaba pegado arriba. Solo se agranda la zona tactil. */
+@media (max-width:991px){
+  .stc-grip{touch-action:pan-y}
+}
+
+/* --- 69. Pagina 404: textos centrados ---------------------------- */
+/* Los textos median 359px dentro de un hueco de 320 y se salian por la
+   derecha; la ventana dibujada, 328px. */
+@media (max-width:767px){
+  .w404-stage,.w404-txtbox,.w404-txt,.w404-head,.w404-lead,.w404-sub{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}
+  .w404-inner{width:100%!important;max-width:320px!important;height:auto!important;
+    aspect-ratio:1/1;margin-left:auto!important;margin-right:auto!important}
+  .w404-win{width:100%!important;height:auto!important;display:block}
+  .w404-lead{font-size:26px!important;line-height:1.15!important}
+  .w404-sub{font-size:16px!important;line-height:1.5!important}
+}
+
+/* --- 70. Espacios de mas ----------------------------------------- */
+@media (max-width:900px){
+  /* los 170px eran para que la barra no tapara el boton, pero debajo
+     sigue la pagina y el boton se alcanza igual haciendo scroll */
+  body.wisi-prev-visible .wwa-sec.wb0 .wwa-form{padding-bottom:28px!important}
+}
+@media (max-width:767px){
+  .about-section{padding-bottom:24px!important}
+  .project-section{padding-top:24px!important}
+  .project-section .stc-head{margin-bottom:22px!important}
 }</style><script id="wisi-movil-js">/* Movil: dos retoques que no se pueden hacer solo con CSS.
    1. Mueve la maqueta del chat justo encima del formulario, para que se
       vea lo que se va a enviar mientras se rellena, no al final.
