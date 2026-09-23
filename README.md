@@ -7,7 +7,8 @@ Maqueta de la nueva web de **Wisi Fensterdienst GmbH** (Albegg 2, 8840 Einsiedel
 - Modo edición: desde el panel Debug. En modo edición se pueden reordenar las secciones de la portada arrastrando el asa azul; el orden se guarda en el navegador y "↺ Orden original" lo deshace.
 - Todas las páginas salvo la portada y la 404 piden el PIN `0000`, cada vez que se entra. Es solo una cortina visual: el contenido está en el archivo y cualquiera puede verlo.
 - Ratgeber (`#/ratgeber`): los 8 artículos de fensterdienst.pages.dev/ratgeber, en alemán (original), inglés y español. Sustituye a la antigua página de proyectos.
-- Retiradas: Blog y sus artículos, FAQ y Licencia de la plantilla, y las fichas de proyectos.
+- Retiradas: Blog y sus artículos, FAQ, Licencia, Styleguide, Changelog y las páginas legales de la plantilla, y las fichas de proyectos.
+- Páginas interiores (23-09-2026): 6 servicios, Über uns, Kontakt, Für Verwaltungen (`#/verwaltungen`), Impressum (`#/impressum`) y Datenschutz (`#/datenschutz`), con el contenido de fensterdienst.pages.dev en DE/EN/ES. Se generan desde `herramientas/pages_data.py` y `pages_data2.py` con `patchDO.py`. En Impressum faltan UID, MWST y seguro (el cliente los confirma).
 - Textos: nunca "Presupuesto / Quote / Offerte"; los botones invitan a escribir y a contar "tu problema".
 
 ## Ver la web
