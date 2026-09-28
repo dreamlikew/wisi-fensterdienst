@@ -13730,6 +13730,21 @@ window.__renderInitial=function(){route()};
     grid-template-columns:minmax(0,1fr)!important;gap:18px!important;
     max-width:300px;margin-left:auto!important;margin-right:auto!important}
   .wisi-hfc .features-content-wrapper > .feature-widget{grid-column:auto!important}
+}
+/* --- 72. Fila del hero: los cuatro puntos en dos por dos --------- */
+/* Sofia los quiere todos, en dos columnas y dos filas. Anula la
+   regla 34 (que escondia "In einem Besuch erledigt") y la 71 (que
+   los ponia en una sola columna). */
+@media (max-width:767px){
+  .wisi-hfc .features-content-wrapper{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:24px 14px!important;max-width:none;
+    align-items:start!important}
+  .wisi-hfc .features-content-wrapper > .feature-widget{grid-column:auto!important}
+  .wisi-hfc .features-content-wrapper > .feature-widget:last-child{display:flex!important}
+  /* con la columna estrecha la barrita quedaba colgando sola */
+  .wisi-hfc .wisi-gsep{display:none!important}
+  .wisi-hfc .wisi-gnum{display:block!important}
 }</style><script id="wisi-movil-js">/* Movil: dos retoques que no se pueden hacer solo con CSS.
    1. Mueve la maqueta del chat justo encima del formulario, para que se
       vea lo que se va a enviar mientras se rellena, no al final.
@@ -14006,4 +14021,374 @@ window.__renderInitial=function(){route()};
                         : MQW.addListener(montarBarra));
   function onMQ(){ ponerFurgoneta(); recortarAntetitulo(); partirBarras(); comparadorTactil(); }
   (MQ.addEventListener ? MQ.addEventListener('change', onMQ) : MQ.addListener(onMQ));
+})();</script><style id="wisi-esc">/* ==================================================================
+   BLOQUE DE ESCRITORIO (Sofia / BALI Flow) - 28-09-2026
+   Estos cambios los pidio Sofia para las dos versiones, asi que no
+   pueden vivir dentro de wisi-movil. Van en su propio bloque para
+   poder quitarlos de una pieza si dreamlikew rehace la seccion.
+   ================================================================== */
+
+/* --- E1. "Ihr Spezialist fuer": las filas no cuadraban ------------ */
+/* .service-card es inline-block sin ancho, asi que se encogia al
+   contenido: la fila de dos acababa antes que la de tres y el borde
+   derecho quedaba desalineado. Que llene su celda de la rejilla. */
+@media (min-width:992px){
+  html body .service-section .collection-list .w-dyn-item > .service-card{
+    display:block;width:100%}
+}
+
+/* --- E2. Vorher / Nachher mas grande ----------------------------- */
+@media (min-width:992px){
+  html body .project-section .stc-head{margin-bottom:46px!important}
+  html body .project-section .stc-title{font-size:clamp(34px,4.1vw,60px)}
+  html body .project-section .stc-row{
+    --wsh:min(70vh,700px);
+    scroll-snap-type:none!important;overflow-anchor:none;
+    gap:18px!important;padding:6px 0 10px!important}
+  html body .project-section .stc-row .stc-card,
+  html body .project-section .stc-row .stc-card.on{
+    height:var(--wsh)!important;
+    width:calc(var(--wsh) * var(--war,1.33))!important;
+    border-radius:26px}
+  html body .project-section .stc-row .stc-card .stc-ba{left:22px;right:22px;top:22px}
+  html body .project-section .stc-row .stc-card .stc-t{padding:9px 22px;font-size:15px}
+  html body .project-section .stc-nav{top:var(--wsnav,50%)!important}
+}
+@media (max-width:991px){
+  html body .project-section .stc-row .stc-card,
+  html body .project-section .stc-row .stc-card.on{height:72vw;min-height:330px}
+}
+
+/* --- E3. Boton de lupa en cada caso ------------------------------ */
+.wsl-zoom{position:absolute;right:16px;bottom:16px;z-index:5;
+  width:46px;height:46px;padding:0;border:0;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#222222;cursor:pointer;
+  display:grid;place-items:center;
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.55);
+  transition:opacity .25s ease,background .2s,color .2s}
+.wsl-zoom svg{width:20px;height:20px}
+.wsl-zoom:hover{background:#009BD2;color:#fff}
+@media (min-width:992px){
+  .wsl-zoom{opacity:0}
+  .stc-card:hover .wsl-zoom,.wsl-zoom:focus-visible{opacity:1}
+}
+@media (max-width:991px){
+  .wsl-zoom{right:12px;bottom:12px;width:40px;height:40px}
+  .wsl-zoom svg{width:18px;height:18px}
+}
+
+/* --- E4. Boton de pausa del carrusel ----------------------------- */
+.wsl-ctl{display:flex;justify-content:center;align-items:center;gap:14px;margin:30px 0 0}
+.wsl-btn{display:inline-flex;align-items:center;gap:10px;
+  padding:11px 24px;border:1px solid rgba(34,34,34,.2);border-radius:50px;
+  background:#fff;color:#222222;font-size:15px;font-weight:600;
+  font-family:inherit;line-height:1;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s}
+.wsl-btn:hover{background:#009BD2;border-color:#009BD2;color:#fff}
+.wsl-btn svg{width:14px;height:14px;fill:currentColor;flex:none}
+.wsl-tip{font-size:14px;color:#5c5f66}
+@media (max-width:991px){.wsl-ctl{display:none}}
+
+/* --- E5. Ventana grande para comparar ---------------------------- */
+/* La tarjeta ocupa todo el hueco libre menos el sitio de los botones,
+   asi que siempre se ve mas grande que en el carrusel. */
+body.wsl-lock{overflow:hidden}
+/* el boton flotante de WhatsApp se quedaba encima de la foto */
+body.wsl-lock #wisi-wafab{opacity:0!important;pointer-events:none!important}
+.wsl-lb{position:fixed;inset:0;z-index:100200;display:none;
+  align-items:center;justify-content:center}
+.wsl-lb.on{display:flex}
+.wsl-bd{position:absolute;inset:0;background:rgba(17,17,17,.9)}
+.wsl-stage{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.wsl-lb .stc-card.wsl-on{
+  position:relative;flex:none;overflow:hidden;border-radius:18px;
+  cursor:ew-resize;touch-action:none;
+  --wla:calc(100vh - 128px);
+  --wlb:calc(100vw - 184px);
+  width:min(var(--wlb), calc(var(--wla) * var(--war,1.33)))!important;
+  height:min(var(--wla), calc(var(--wlb) / var(--war,1.33)))!important}
+.wsl-lb .stc-card.wsl-on .stc-handle{opacity:1}
+.wsl-lb .stc-card.wsl-on .stc-ba{left:20px;right:20px;top:20px}
+.wsl-lb .stc-card.wsl-on .stc-t{padding:9px 22px;font-size:15px}
+.wsl-cap{position:absolute;left:0;right:0;bottom:22px;z-index:2;margin:0;
+  color:#fff;opacity:.78;font-size:15px;text-align:center;pointer-events:none}
+.wsl-x,.wsl-p,.wsl-n{position:absolute;z-index:3;padding:0;border:0;border-radius:50%;
+  background:#fff;color:#222222;cursor:pointer;display:grid;place-items:center;
+  line-height:1;font-family:inherit;
+  box-shadow:0 12px 26px -12px rgba(0,0,0,.7);transition:background .2s,color .2s}
+.wsl-x:hover,.wsl-p:hover,.wsl-n:hover{background:#009BD2;color:#fff}
+.wsl-x{top:20px;right:20px;width:46px;height:46px;font-size:27px}
+.wsl-p,.wsl-n{top:50%;transform:translateY(-50%);width:54px;height:54px;font-size:31px}
+.wsl-p{left:20px}
+.wsl-n{right:20px}
+@media (max-width:700px){
+  /* las flechas bajan para no comerse el ancho de la foto */
+  .wsl-lb .stc-card.wsl-on{--wla:calc(100vh - 136px);--wlb:calc(100vw - 24px)}
+  .wsl-lb .stc-card.wsl-on .stc-ba{left:12px;right:12px;top:12px}
+  .wsl-lb .stc-card.wsl-on .stc-t{padding:7px 16px;font-size:13px}
+  .wsl-x{width:40px;height:40px;font-size:23px;top:12px;right:12px}
+  .wsl-p,.wsl-n{top:auto;bottom:14px;transform:none;width:44px;height:44px;font-size:25px}
+  .wsl-p{left:calc(50% - 56px)}
+  .wsl-n{right:calc(50% - 56px)}
+  .wsl-cap{display:none}
+}</style><script id="wisi-esc-js">/* Bloque de escritorio (Sofia / BALI Flow) - 28-09-2026
+   1. La linea de confianza dice los anos de oficio, no solo "seit 1988".
+   2. Vorher/Nachher: el carrusel se mueve solo, se puede parar y cada
+      caso se abre grande para arrastrar el comparador. */
+(function(){
+  var T = {
+    de:{anos:'seit 1988, 35+ Jahre Erfahrung',
+        pause:'Automatik stoppen', play:'Automatik starten',
+        tip:'Auf ein Bild klicken und vergleichen',
+        zoom:'Grösser ansehen', close:'Schliessen',
+        prev:'Vorheriges Beispiel', next:'Nächstes Beispiel',
+        cap:'Regler ziehen und Vorher mit Nachher vergleichen'},
+    en:{anos:'since 1988, 35+ years of experience',
+        pause:'Stop autoplay', play:'Start autoplay',
+        tip:'Click an image to compare it',
+        zoom:'View larger', close:'Close',
+        prev:'Previous example', next:'Next example',
+        cap:'Drag the slider to compare before and after'},
+    es:{anos:'desde 1988, 35+ años de experiencia',
+        pause:'Parar el carrusel', play:'Mover el carrusel',
+        tip:'Toca una imagen para compararla',
+        zoom:'Ver más grande', close:'Cerrar',
+        prev:'Caso anterior', next:'Caso siguiente',
+        cap:'Arrastra el control para comparar el antes y el después'}
+  };
+  function L(){
+    var l=(document.documentElement.lang||'de').slice(0,2).toLowerCase();
+    return T[l]||T.de;
+  }
+
+  /* ---------- 1. "seit 1988" -> anos de experiencia -------------- */
+  var ANOS=/^[,\s]*(seit|since|desde)\s*1988\.?$/i;
+  function anos(){
+    var p=document.querySelectorAll('.features-content-wrapper .feature-widget .text-md');
+    for(var i=0;i<p.length;i++){
+      if(ANOS.test(p[i].textContent.trim())) p[i].textContent=L().anos;
+    }
+  }
+  function vigilarAnos(){
+    anos();
+    if(!window.MutationObserver) return;
+    var mo=new MutationObserver(function(){ anos(); });
+    var w=document.querySelectorAll('.features-content-wrapper');
+    for(var i=0;i<w.length;i++) mo.observe(w[i],{childList:true,subtree:true,characterData:true});
+    new MutationObserver(function(){ setTimeout(anos,60); setTimeout(anos,400); })
+      .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  }
+
+  /* ---------- 2. Carrusel de Vorher / Nachher -------------------- */
+  var I_PAUSE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>';
+  var I_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>';
+  var I_ZOOM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>';
+
+  var MQD=window.matchMedia('(min-width:992px)');
+  var MOV=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var row=null, cards=[], pos=0, parado=false, encima=false, abierto=false, ultimo=0;
+  var btn=null, tip=null, lb=null, escena=null, cap=null, actual=-1;
+
+  function proporcion(c){
+    var im=c.querySelector('.stc-after img');
+    if(im && im.naturalWidth && im.naturalHeight){
+      c.style.setProperty('--war',(im.naturalWidth/im.naturalHeight).toFixed(4));
+      return true;
+    }
+    return false;
+  }
+
+  function hueco(){ return parseFloat(getComputedStyle(row).columnGap)||16; }
+
+  function girar(){
+    var g=hueco(), M=Math.max(260,row.clientWidth*0.25), n=0, el, w;
+    while((el=row.firstElementChild) && n++<20){
+      w=el.getBoundingClientRect().width+g;
+      if(pos-M>=w){ row.appendChild(el); pos-=w; } else break;
+    }
+    n=0;
+    while(pos<M && (el=row.lastElementChild) && n++<20){
+      w=el.getBoundingClientRect().width+g;
+      row.insertBefore(el,row.firstElementChild); pos+=w;
+    }
+  }
+
+  function paso(ts){
+    requestAnimationFrame(paso);
+    if(!row||!row.isConnected) return;
+    if(!ultimo) ultimo=ts;
+    var dt=ts-ultimo; ultimo=ts;
+    if(!MQD.matches||parado||encima||abierto||document.hidden){ pos=row.scrollLeft; return; }
+    if(row.scrollWidth-row.clientWidth<row.clientWidth*0.5) return;
+    if(Math.abs(row.scrollLeft-pos)>2) pos=row.scrollLeft;
+    pos+=0.062*Math.min(dt,50);
+    girar();
+    row.scrollLeft=pos;
+  }
+
+  function centrarFlechas(){
+    if(!row) return;
+    var st=row.parentElement; if(!st) return;
+    st.style.setProperty('--wsnav',Math.round(row.offsetTop+row.offsetHeight/2)+'px');
+  }
+
+  function textos(){
+    var t=L();
+    if(btn){
+      btn.setAttribute('aria-label',parado?t.play:t.pause);
+      btn.innerHTML=(parado?I_PLAY:I_PAUSE)+'<span>'+(parado?t.play:t.pause)+'</span>';
+    }
+    if(tip) tip.textContent=t.tip;
+    if(lb){
+      lb.querySelector('.wsl-x').setAttribute('aria-label',t.close);
+      lb.querySelector('.wsl-p').setAttribute('aria-label',t.prev);
+      lb.querySelector('.wsl-n').setAttribute('aria-label',t.next);
+    }
+    if(cap) cap.textContent=L().cap;
+    var z=document.querySelectorAll('.wsl-zoom');
+    for(var i=0;i<z.length;i++) z[i].setAttribute('aria-label',t.zoom);
+  }
+
+  function arrastrar(el){
+    var on=false;
+    function mover(e){
+      var r=el.getBoundingClientRect();
+      var p=Math.max(2,Math.min(98,((e.clientX-r.left)/r.width)*100));
+      el.style.setProperty('--sx',p.toFixed(1)+'%');
+    }
+    el.addEventListener('pointerdown',function(e){
+      if(e.button) return;
+      on=true; try{ el.setPointerCapture(e.pointerId); }catch(x){}
+      mover(e); e.preventDefault();
+    });
+    el.addEventListener('pointermove',function(e){ if(on) mover(e); });
+    el.addEventListener('pointerup',function(){ on=false; });
+    el.addEventListener('pointercancel',function(){ on=false; });
+  }
+
+  function abrir(i){
+    if(i<0) i=cards.length-1;
+    if(i>=cards.length) i=0;
+    actual=i;
+    var copia=cards[i].cloneNode(true);
+    var z=copia.querySelector('.wsl-zoom'); if(z) z.remove();
+    copia.classList.add('on','wsl-on');
+    copia.removeAttribute('data-drag');
+    copia.style.setProperty('--sx','50%');
+    escena.innerHTML='';
+    escena.appendChild(copia);
+    if(!cap){ cap=document.createElement('p'); cap.className='wsl-cap'; lb.appendChild(cap); }
+    cap.textContent=L().cap;
+    arrastrar(copia);
+    lb.classList.add('on');
+    document.body.classList.add('wsl-lock');
+    abierto=true;
+    lb.querySelector('.wsl-x').focus();
+  }
+
+  function cerrar(){
+    if(!abierto) return;
+    abierto=false; actual=-1;
+    lb.classList.remove('on');
+    document.body.classList.remove('wsl-lock');
+    escena.innerHTML='';
+  }
+
+  function montarVentana(){
+    if(document.querySelector('.wsl-lb')) { lb=document.querySelector('.wsl-lb'); escena=lb.querySelector('.wsl-stage'); return; }
+    lb=document.createElement('div');
+    lb.className='wsl-lb';
+    lb.setAttribute('role','dialog');
+    lb.setAttribute('aria-modal','true');
+    lb.innerHTML='<div class="wsl-bd"></div><div class="wsl-stage"></div>'+
+      '<button type="button" class="wsl-x">&times;</button>'+
+      '<button type="button" class="wsl-p">&#8249;</button>'+
+      '<button type="button" class="wsl-n">&#8250;</button>';
+    document.body.appendChild(lb);
+    escena=lb.querySelector('.wsl-stage');
+    lb.querySelector('.wsl-bd').addEventListener('click',cerrar);
+    lb.querySelector('.wsl-x').addEventListener('click',cerrar);
+    lb.querySelector('.wsl-p').addEventListener('click',function(){ abrir(actual-1); });
+    lb.querySelector('.wsl-n').addEventListener('click',function(){ abrir(actual+1); });
+    document.addEventListener('keydown',function(e){
+      if(!abierto) return;
+      if(e.key==='Escape'){ e.preventDefault(); cerrar(); }
+      else if(e.key==='ArrowLeft'){ e.preventDefault(); abrir(actual-1); }
+      else if(e.key==='ArrowRight'){ e.preventDefault(); abrir(actual+1); }
+    });
+  }
+
+  function montar(){
+    var sec=document.querySelector('.project-section');
+    if(!sec) return false;
+    var r=sec.querySelector('.stc-row');
+    if(!r || r.dataset.wsl) return false;
+    var k=[].slice.call(r.querySelectorAll('.stc-card'));
+    if(k.length<2) return false;
+    r.dataset.wsl='1';
+    row=r; cards=k; pos=r.scrollLeft; parado=MOV.matches;
+
+    montarVentana();
+
+    cards.forEach(function(c,i){
+      if(!proporcion(c)){
+        var im=c.querySelector('.stc-after img');
+        if(im) im.addEventListener('load',function(){ proporcion(c); centrarFlechas(); });
+      }
+      var b=document.createElement('button');
+      b.type='button'; b.className='wsl-zoom'; b.innerHTML=I_ZOOM;
+      b.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
+      b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); abrir(i); });
+      (c.querySelector('.stc-wrap')||c).appendChild(b);
+    });
+
+    /* un clic sin arrastre abre el caso grande */
+    var dx=0,dy=0,dt=0,dc=null;
+    row.addEventListener('pointerdown',function(e){
+      dc=e.target.closest ? e.target.closest('.stc-card') : null;
+      dx=e.clientX; dy=e.clientY; dt=Date.now();
+    },true);
+    row.addEventListener('pointerup',function(e){
+      if(!dc) return;
+      var c=dc; dc=null;
+      if(Math.abs(e.clientX-dx)+Math.abs(e.clientY-dy)>6) return;
+      if(Date.now()-dt>700) return;
+      var i=cards.indexOf(c);
+      if(i>=0){ e.preventDefault(); e.stopPropagation(); abrir(i); }
+    },true);
+
+    row.addEventListener('mouseenter',function(){ encima=true; });
+    row.addEventListener('mouseleave',function(){ encima=false; });
+
+    /* barra con el boton de parar */
+    var ctl=document.createElement('div'); ctl.className='wsl-ctl';
+    btn=document.createElement('button'); btn.type='button'; btn.className='wsl-btn';
+    btn.addEventListener('click',function(){ parado=!parado; textos(); });
+    tip=document.createElement('span'); tip.className='wsl-tip';
+    ctl.appendChild(btn); ctl.appendChild(tip);
+    (row.parentElement||row).appendChild(ctl);
+
+    textos();
+    centrarFlechas();
+    addEventListener('resize',centrarFlechas);
+    setTimeout(centrarFlechas,600);
+    setTimeout(centrarFlechas,2000);
+    setTimeout(function(){ for(var i=0;i<cards.length;i++) proporcion(cards[i]); centrarFlechas(); },2500);
+
+    if(window.MutationObserver){
+      new MutationObserver(function(){ setTimeout(textos,60); })
+        .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    }
+    requestAnimationFrame(paso);
+    return true;
+  }
+
+  function intentar(n){
+    if(montar()) return;
+    if(n<60) setTimeout(function(){ intentar(n+1); },400);
+  }
+
+  function init(){ vigilarAnos(); intentar(0); }
+  if(document.readyState==='complete') setTimeout(init,300);
+  else addEventListener('load',function(){ setTimeout(init,300); });
 })();</script>
