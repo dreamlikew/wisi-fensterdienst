@@ -14151,26 +14151,28 @@ body.wsl-lock #wisi-wafab{opacity:0!important;pointer-events:none!important}
 @media (max-width:860px){
   html body .project-banner-section .banner-title,
   html body .about-banner-section .banner-title,
-  html body .main-wrapper h1{overflow-wrap:break-word;hyphens:auto}
+  /* solo break-word: con hyphens:auto partia tambien palabras que si
+     cabian, como "Spezia-list" */
+  html body .main-wrapper h1{overflow-wrap:break-word}
 }</style><script id="wisi-esc-js">/* Bloque de escritorio (Sofia / BALI Flow) - 28-09-2026
    1. La linea de confianza dice los anos de oficio, no solo "seit 1988".
    2. Vorher/Nachher: el carrusel se mueve solo, se puede parar y cada
       caso se abre grande para arrastrar el comparador. */
 (function(){
   var T = {
-    de:{anos:'seit 1988, 35+ Jahre Erfahrung',
+    de:{anos:'seit 1988, 30+ Jahre Erfahrung',
         pause:'Automatik stoppen', play:'Automatik starten',
         tip:'Auf ein Bild klicken und vergleichen',
         zoom:'Grösser ansehen', close:'Schliessen',
         prev:'Vorheriges Beispiel', next:'Nächstes Beispiel',
         cap:'Regler ziehen und Vorher mit Nachher vergleichen'},
-    en:{anos:'since 1988, 35+ years of experience',
+    en:{anos:'since 1988, 30+ years of experience',
         pause:'Stop autoplay', play:'Start autoplay',
         tip:'Click an image to compare it',
         zoom:'View larger', close:'Close',
         prev:'Previous example', next:'Next example',
         cap:'Drag the slider to compare before and after'},
-    es:{anos:'desde 1988, 35+ años de experiencia',
+    es:{anos:'desde 1988, 30+ años de experiencia',
         pause:'Parar el carrusel', play:'Mover el carrusel',
         tip:'Toca una imagen para compararla',
         zoom:'Ver más grande', close:'Cerrar',
@@ -14737,4 +14739,248 @@ html body .wbio-sec{display:none!important}
   }
   if(document.readyState==='complete') setTimeout(init,300);
   else addEventListener('load',function(){ setTimeout(init,300); });
+})();</script><style id="wisi-svc">/* ==================================================================
+   PAGINAS DE SERVICIO (Sofia / BALI Flow) - 29-09-2026
+   Sofia: "las caracteristicas o lo que incluye un poco en este estilo,
+   con estas transiciones" (la seccion "So bringen wir das ins Rollen"
+   de performas-v3), "y la pregunta un poco mas resaltada, con el texto
+   tambien un poco mas grande".
+   ================================================================== */
+
+/* --- S1. "Das gehoert dazu": fichas con numero y entrada escalonada -
+   Nota: la version de performas apila las fichas con position:sticky.
+   Aqui no se puede: estas paginas llevan zoom:0.8 en el <html> y con
+   zoom Chrome coloca mal los elementos sticky (aparecen pegados aunque
+   esten fuera de pantalla). Se queda la rejilla con la misma estetica
+   y la misma transicion de entrada. */
+html body .wsvc-inc{margin:48px 0 0}
+html body .wsvc-inc-head{max-width:760px;margin:0 0 26px}
+html body .wsvc-inc-head h4{
+  margin:0 0 12px!important;font-size:clamp(26px,2.7vw,38px);
+  line-height:1.1;letter-spacing:-.9px;color:#222222}
+html body .wsvc-inc-head p{
+  margin:0!important;font-size:17.5px;line-height:1.6;color:#5c5f66}
+
+html body ol.wsvc-inc-list,
+html body ul.wsvc-inc-list{
+  list-style:none;margin:0!important;padding:0!important;
+  display:grid!important;grid-template-columns:1fr 1fr;gap:16px!important}
+html body .wsvc-inc-list li{
+  position:relative;display:flex!important;align-items:center;gap:20px!important;
+  margin:0!important;padding:26px 30px!important;min-height:112px!important;
+  border-radius:18px;background:#FBFAF8;border:1px solid rgba(34,34,34,.09);
+  box-shadow:0 22px 44px -38px rgba(0,0,0,.6);
+  font-size:17.5px!important;line-height:1.45;color:#222222;
+  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+html body .wsvc-inc-list li:hover{
+  transform:translateY(-3px);border-color:rgba(0,155,210,.35);
+  box-shadow:0 26px 48px -34px rgba(0,60,90,.5)}
+html body .wsvc-inc-list li .wli-ico{flex:0 0 auto;width:52px;height:52px}
+html body .wsvc-inc-list li .wli-ico svg{width:26px;height:26px}
+html body .wsvc-nr{
+  position:absolute;top:14px;right:20px;
+  font-size:12.5px;font-weight:700;letter-spacing:.09em;
+  color:#009BD2;opacity:.55;font-variant-numeric:tabular-nums}
+
+/* la entrada: aparecen desde abajo, una detras de otra */
+html body [data-wr]{opacity:0;transform:translateY(26px);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1);
+  transition-delay:var(--wd,0ms)}
+html body [data-wr].wr-on{opacity:1;transform:none}
+html body [data-wr].wr-on:hover{transform:translateY(-3px)}
+@media (prefers-reduced-motion:reduce){
+  html body [data-wr]{opacity:1!important;transform:none!important;transition:none!important}
+}
+
+@media (max-width:991px){
+  html body .wsvc-inc{margin-top:34px}
+  html body .wsvc-inc-head{margin-bottom:20px}
+  html body .wsvc-inc-head h4{font-size:26px}
+  html body ol.wsvc-inc-list,
+  html body ul.wsvc-inc-list{grid-template-columns:1fr;gap:12px!important}
+  html body .wsvc-inc-list li{padding:20px 20px!important;min-height:0!important;
+    gap:16px!important;font-size:16.5px!important}
+  html body .wsvc-inc-list li .wli-ico{width:44px;height:44px}
+  html body .wsvc-inc-list li .wli-ico svg{width:22px;height:22px}
+  html body .wsvc-nr{top:11px;right:14px;font-size:11.5px}
+}
+
+/* --- S2. La pregunta, mas destacada y con el texto mas grande ---- */
+html body .wtip{
+  margin:64px 0 0!important;background:#FFFBF0;
+  border:1px solid rgba(224,168,0,.32);border-radius:18px;
+  box-shadow:0 26px 54px -42px rgba(120,86,0,.6)}
+html body .wtip-h{padding:34px 38px 8px!important;gap:22px!important}
+html body .wtip-ico{width:68px!important;height:68px!important}
+html body .wtip-ico svg{width:32px;height:32px}
+html body .wtip-q{
+  font-size:clamp(24px,2.4vw,32px)!important;line-height:1.18!important;
+  letter-spacing:-.6px;margin:12px 0 0!important}
+html body .wtip-b{
+  padding:10px 38px 34px 128px!important;
+  font-size:19px!important;line-height:1.65!important;color:#3a3a39}
+@media (max-width:991px){
+  html body .wtip{margin-top:44px!important;border-radius:14px}
+  html body .wtip-h{padding:24px 22px 6px!important;gap:16px!important}
+  html body .wtip-ico{width:52px!important;height:52px!important}
+  html body .wtip-ico svg{width:26px;height:26px}
+  html body .wtip-q{font-size:21px!important}
+  html body .wtip-b{padding:8px 22px 24px 22px!important;font-size:17px!important}
+}
+
+
+/* --- S3. Boton flotante de WhatsApp, mas pequeno ----------------- */
+/* Media 66 px con un icono de 46: el icono ocupaba el 70% y se veia
+   desproporcionado. */
+html body #wisi-wafab{
+  width:52px!important;height:52px!important;border-radius:16px!important;
+  right:28px!important;bottom:28px!important}
+html body #wisi-wafab svg{width:25px!important;height:25px!important}
+@media (max-width:991px){
+  html body #wisi-wafab{width:46px!important;height:46px!important;
+    border-radius:14px!important;right:16px!important;bottom:18px!important}
+  html body #wisi-wafab svg{width:22px!important;height:22px!important}
+}
+
+/* --- S4. Repaso del movil en las paginas de servicio ------------- */
+@media (max-width:991px){
+  /* la foto de cabecera media 580 de alto dentro de una caja de 250 y
+     se salia por debajo: el texto siguiente le caia encima */
+  html body .blog-details-banner-image-block{overflow:hidden;border-radius:14px}
+  html body .blog-details-banner-image{
+    width:100%!important;height:100%!important;object-fit:cover;display:block}
+
+  /* el titulo de la pagina era mas pequeno que el parrafo de entrada */
+  html body .service-details-section .service-details-heading-block h2{
+    font-size:30px!important;line-height:1.1;letter-spacing:-.8px}
+  html body .service-details-top-content>p:first-child{
+    font-size:17px!important;line-height:1.55}
+
+  /* las dos fotos del detalle iban en fila y la segunda salia cortada */
+  html body .service-details-image-block{
+    display:grid!important;grid-template-columns:1fr!important;gap:12px;
+    margin-top:34px!important}
+  html body .service-details-image,
+  html body .service-details-image-02{
+    width:100%!important;height:56vw!important;min-height:200px;max-height:300px;
+    object-fit:cover;border-radius:12px;display:block}
+
+  /* "Weitere Leistungen": cuatro tarjetas en 320 px dejaban los titulos
+     en "F...", "G...". Ahora se deslizan de una en una. */
+  html body .wsvc-track{gap:12px!important;scroll-snap-type:x mandatory}
+  html body .wsvc-track>*{flex:0 0 auto!important;width:72%!important;
+    min-width:0;scroll-snap-align:start}
+
+  /* la banda de llamada: 80 px de relleno lateral dejaban el titulo en
+     una columna de 166 px, y la furgoneta tapaba el boton */
+  html body .cta-section .wbn-in{padding:54px 22px 104px!important}
+  html body .cta-section .wbn-h{font-size:24px!important;line-height:1.2!important;
+    letter-spacing:-.5px}
+  html body .cta-section .wbn-btn{position:relative;z-index:8}
+  html body .cta-section .wbn-van,
+  html body .cta-section .wbn-van svg{width:180px!important;height:auto!important;display:block}
+
+  /* en la pagina de Dienstleistungen los titulos si caben enteros:
+     el guion automatico es solo para la portada */
+  html body .service-section.service-page .service-card-title{
+    -webkit-hyphens:manual!important;hyphens:manual!important}
+}</style><script id="wisi-svc-js">/* Paginas de servicio (Sofia / BALI Flow) - 29-09-2026
+   "Das gehoert dazu" pasa a cabecera fija mas fichas que se apilan al
+   bajar, como la seccion de performas. Solo se mueven nodos que ya
+   existen; lo unico nuevo son los numeros, que no hay que traducir. */
+(function(){
+  var obs=null;
+
+  function verAlEntrar(el,i){
+    if(!('IntersectionObserver' in window)){ el.classList.add('wr-on'); return; }
+    el.setAttribute('data-wr','');
+    el.style.setProperty('--wd',(i*70)+'ms');
+    if(!obs) obs=new IntersectionObserver(function(ent){
+      for(var k=0;k<ent.length;k++){
+        if(ent[k].isIntersecting){ ent[k].target.classList.add('wr-on'); obs.unobserve(ent[k].target); }
+      }
+    },{rootMargin:'0px 0px -12% 0px',threshold:.15});
+    obs.observe(el);
+  }
+
+  function montar(){
+    var top=document.querySelector('.service-details-top-content');
+    if(!top || top.dataset.wsvc) return;
+    var h4=top.querySelector('h4');
+    var lista=top.querySelector('ul');
+    if(!h4 || !lista) return;
+    top.dataset.wsvc='1';
+
+    var caja=document.createElement('div');
+    caja.className='wsvc-inc';
+    var cab=document.createElement('div');
+    cab.className='wsvc-inc-head';
+    caja.appendChild(cab);
+    top.insertBefore(caja,h4);
+
+    /* la cabecera se lleva el titulo y el parrafo que va justo debajo */
+    var sig=h4.nextElementSibling;
+    cab.appendChild(h4);
+    if(sig && sig.tagName==='P') cab.appendChild(sig);
+
+    /* la UL original arrastra reglas de Webflow y de dreamlikew que
+       pelean con el apilado; se construye una OL limpia y se le pasan
+       los nodos tal cual, asi el traductor sigue funcionando */
+    var nueva=document.createElement('ol');
+    nueva.className='wsvc-inc-list';
+    var viejos=[].slice.call(lista.children);
+    for(var v=0;v<viejos.length;v++){
+      var n=document.createElement('li');
+      while(viejos[v].firstChild) n.appendChild(viejos[v].firstChild);
+      nueva.appendChild(n);
+    }
+    lista.parentNode.removeChild(lista);
+    caja.appendChild(nueva);
+
+    var li=nueva.children;
+    for(var i=0;i<li.length;i++){
+      li[i].style.setProperty('--i',i);
+      if(!li[i].querySelector('.wsvc-nr')){
+        var n=document.createElement('span');
+        n.className='wsvc-nr';
+        n.setAttribute('aria-hidden','true');
+        n.textContent=(i+1<10?'0':'')+(i+1);
+        li[i].appendChild(n);
+      }
+      verAlEntrar(li[i],i);
+    }
+    verAlEntrar(cab,0);
+  }
+
+  /* si el traductor rehace la lista, hay que volver a poner numeros */
+  function repasar(){
+    var lista=document.querySelector('.wsvc-inc-list');
+    if(!lista) return;
+    var li=lista.children;
+    for(var i=0;i<li.length;i++){
+      li[i].style.setProperty('--i',i);
+      if(!li[i].querySelector('.wsvc-nr')){
+        var n=document.createElement('span');
+        n.className='wsvc-nr'; n.setAttribute('aria-hidden','true');
+        n.textContent=(i+1<10?'0':'')+(i+1);
+        li[i].appendChild(n);
+        li[i].classList.add('wr-on');
+      }
+    }
+  }
+
+  function init(){
+    montar();
+    var raiz=document.querySelector('.main-wrapper')||document.body;
+    if(window.MutationObserver){
+      new MutationObserver(function(){ montar(); }).observe(raiz,{childList:true});
+      new MutationObserver(function(){ setTimeout(repasar,120); setTimeout(repasar,600); })
+        .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    }
+    addEventListener('hashchange',function(){
+      [100,500,1200].forEach(function(t){ setTimeout(montar,t); });
+    });
+  }
+  if(document.readyState==='complete') setTimeout(init,320);
+  else addEventListener('load',function(){ setTimeout(init,320); });
 })();</script>
