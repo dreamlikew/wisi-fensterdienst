@@ -14747,62 +14747,65 @@ html body .wbio-sec{display:none!important}
    tambien un poco mas grande".
    ================================================================== */
 
-/* --- S1. "Das gehoert dazu": fichas con numero y entrada escalonada -
-   Nota: la version de performas apila las fichas con position:sticky.
-   Aqui no se puede: estas paginas llevan zoom:0.8 en el <html> y con
-   zoom Chrome coloca mal los elementos sticky (aparecen pegados aunque
-   esten fuera de pantalla). Se queda la rejilla con la misma estetica
-   y la misma transicion de entrada. */
+/* --- S1. "Das gehoert dazu": cabecera fija y fichas que se apilan --
+   Como la seccion "So bringen wir das ins Rollen" de performas.
+   Ojo: el <html> lleva zoom:0.8 y con zoom Chrome ancla los elementos
+   position:sticky unos 500 px antes de tiempo (comprobado con una
+   prueba aislada en esta misma pagina). Por eso el anclado lo hace el
+   JS con transform, que no depende de esa cuenta. */
 html body .wsvc-inc{margin:48px 0 0}
-html body .wsvc-inc-head{max-width:760px;margin:0 0 26px}
+@media (min-width:992px){
+  html body .wsvc-inc{display:grid;grid-template-columns:5fr 6fr;gap:56px;align-items:start}
+  html body .wsvc-inc-head{will-change:transform}
+}
 html body .wsvc-inc-head h4{
-  margin:0 0 12px!important;font-size:clamp(26px,2.7vw,38px);
+  margin:0 0 14px!important;font-size:clamp(26px,2.7vw,38px);
   line-height:1.1;letter-spacing:-.9px;color:#222222}
 html body .wsvc-inc-head p{
-  margin:0!important;font-size:17.5px;line-height:1.6;color:#5c5f66}
+  margin:0!important;font-size:17.5px;line-height:1.6;color:#5c5f66;max-width:430px}
 
 html body ol.wsvc-inc-list,
 html body ul.wsvc-inc-list{
   list-style:none;margin:0!important;padding:0!important;
-  display:grid!important;grid-template-columns:1fr 1fr;gap:16px!important}
+  display:block!important;grid-template-columns:none!important;gap:0!important}
 html body .wsvc-inc-list li{
-  position:relative;display:flex!important;align-items:center;gap:20px!important;
-  margin:0!important;padding:26px 30px!important;min-height:112px!important;
-  border-radius:18px;background:#FBFAF8;border:1px solid rgba(34,34,34,.09);
-  box-shadow:0 22px 44px -38px rgba(0,0,0,.6);
-  font-size:17.5px!important;line-height:1.45;color:#222222;
-  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
-html body .wsvc-inc-list li:hover{
-  transform:translateY(-3px);border-color:rgba(0,155,210,.35);
-  box-shadow:0 26px 48px -34px rgba(0,60,90,.5)}
-html body .wsvc-inc-list li .wli-ico{flex:0 0 auto;width:52px;height:52px}
-html body .wsvc-inc-list li .wli-ico svg{width:26px;height:26px}
+  position:relative;display:block!important;margin:0 0 30px!important;padding:0!important;
+  min-height:0!important;will-change:transform}
+html body .wsvc-inc-list li:last-child{margin-bottom:0!important}
+
+html body .wsvc-card{
+  position:relative;display:flex;align-items:center;gap:22px;
+  padding:34px 34px;min-height:152px;border-radius:20px;
+  background:#FBFAF8;border:1px solid rgba(34,34,34,.09);
+  box-shadow:0 26px 54px -40px rgba(0,0,0,.7);
+  font-size:18px;line-height:1.45;color:#222222}
+html body .wsvc-card .wli-ico{flex:0 0 auto;width:54px;height:54px}
+html body .wsvc-card .wli-ico svg{width:27px;height:27px}
 html body .wsvc-nr{
-  position:absolute;top:14px;right:20px;
-  font-size:12.5px;font-weight:700;letter-spacing:.09em;
+  position:absolute;top:18px;right:24px;
+  font-size:13px;font-weight:700;letter-spacing:.09em;
   color:#009BD2;opacity:.55;font-variant-numeric:tabular-nums}
 
-/* la entrada: aparecen desde abajo, una detras de otra */
-html body [data-wr]{opacity:0;transform:translateY(26px);
-  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1);
-  transition-delay:var(--wd,0ms)}
-html body [data-wr].wr-on{opacity:1;transform:none}
-html body [data-wr].wr-on:hover{transform:translateY(-3px)}
+/* la entrada: solo opacidad, porque el transform lo usa el anclado */
+html body .wsvc-card[data-wr]{opacity:0;transition:opacity .55s ease;transition-delay:var(--wd,0ms)}
+html body .wsvc-card[data-wr].wr-on{opacity:1}
+html body .wsvc-inc-head[data-wr]{opacity:0;transform:translateY(24px);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+html body .wsvc-inc-head[data-wr].wr-on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   html body [data-wr]{opacity:1!important;transform:none!important;transition:none!important}
 }
 
 @media (max-width:991px){
   html body .wsvc-inc{margin-top:34px}
-  html body .wsvc-inc-head{margin-bottom:20px}
+  html body .wsvc-inc-head{margin-bottom:22px}
   html body .wsvc-inc-head h4{font-size:26px}
-  html body ol.wsvc-inc-list,
-  html body ul.wsvc-inc-list{grid-template-columns:1fr;gap:12px!important}
-  html body .wsvc-inc-list li{padding:20px 20px!important;min-height:0!important;
-    gap:16px!important;font-size:16.5px!important}
-  html body .wsvc-inc-list li .wli-ico{width:44px;height:44px}
-  html body .wsvc-inc-list li .wli-ico svg{width:22px;height:22px}
-  html body .wsvc-nr{top:11px;right:14px;font-size:11.5px}
+  html body .wsvc-inc-head p{max-width:none}
+  html body .wsvc-inc-list li{margin-bottom:12px!important;transform:none!important}
+  html body .wsvc-card{padding:22px 20px;min-height:0;gap:16px;font-size:16.5px;border-radius:16px}
+  html body .wsvc-card .wli-ico{width:44px;height:44px}
+  html body .wsvc-card .wli-ico svg{width:22px;height:22px}
+  html body .wsvc-nr{top:12px;right:16px;font-size:11.5px}
 }
 
 /* --- S2. La pregunta, mas destacada y con el texto mas grande ---- */
@@ -14885,95 +14888,153 @@ html body #wisi-wafab svg{width:25px!important;height:25px!important}
   html body .service-section.service-page .service-card-title{
     -webkit-hyphens:manual!important;hyphens:manual!important}
 }</style><script id="wisi-svc-js">/* Paginas de servicio (Sofia / BALI Flow) - 29-09-2026
-   "Das gehoert dazu" pasa a cabecera fija mas fichas que se apilan al
-   bajar, como la seccion de performas. Solo se mueven nodos que ya
-   existen; lo unico nuevo son los numeros, que no hay que traducir. */
+   "Das gehoert dazu": cabecera fija a la izquierda y fichas que se van
+   apilando al bajar, como la seccion "So bringen wir das ins Rollen"
+   de performas.
+
+   El anclado NO usa position:sticky. El <html> de esta web lleva
+   zoom:0.8 y con zoom Chrome ancla los sticky unos 500 px antes de
+   tiempo (probado con tres cajas sueltas en esta misma pagina). Se hace
+   con transform, que se calcula a mano y no depende de esa cuenta.
+
+   Solo se mueven nodos que ya existen, asi el traductor sigue bien. */
 (function(){
-  var obs=null;
+  var MQ=window.matchMedia('(min-width:992px)');
+  var MOV=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var BASE=112, PASO=34;   /* alto de la cabecera fija y escalon entre fichas */
+  var obs=null, fichas=[], lista=null, cab=null, raf=0;
 
   function verAlEntrar(el,i){
     if(!('IntersectionObserver' in window)){ el.classList.add('wr-on'); return; }
     el.setAttribute('data-wr','');
     el.style.setProperty('--wd',(i*70)+'ms');
     if(!obs) obs=new IntersectionObserver(function(ent){
-      for(var k=0;k<ent.length;k++){
-        if(ent[k].isIntersecting){ ent[k].target.classList.add('wr-on'); obs.unobserve(ent[k].target); }
+      for(var k=0;k<ent.length;k++) if(ent[k].isIntersecting){
+        ent[k].target.classList.add('wr-on'); obs.unobserve(ent[k].target);
       }
-    },{rootMargin:'0px 0px -12% 0px',threshold:.15});
+    },{rootMargin:'0px 0px -10% 0px',threshold:.12});
     obs.observe(el);
   }
+
+  /* posicion del elemento en el documento, en px de maquetacion */
+  function arriba(el){
+    var y=0;
+    while(el){ y+=el.offsetTop||0; el=el.offsetParent; }
+    return y;
+  }
+
+  /* Con zoom en el <html>, offsetTop va en px de maquetacion pero
+     pageYOffset va en px de pantalla. Hay que pasar el scroll a los
+     mismos px que la maquetacion o las cuentas no cuadran. */
+  function scrollMaq(){
+    var z=parseFloat(getComputedStyle(document.documentElement).zoom)||1;
+    return (window.pageYOffset||document.documentElement.scrollTop||0)/z;
+  }
+
+  function anclar(){
+    raf=0;
+    if(!lista||!lista.isConnected) return;
+    if(!MQ.matches||MOV.matches){
+      for(var q=0;q<fichas.length;q++){ fichas[q].style.transform=''; fichas[q].dataset.wy=0; }
+      if(cab){ cab.style.transform=''; cab.dataset.wy=0; }
+      return;
+    }
+    /* Se mide la posicion real en pantalla y se corrige desde ahi, en
+       vez de calcularla con el scroll: con zoom en el <html> el scroll
+       y la maquetacion van en unidades distintas y no cuadran. */
+    var z=parseFloat(getComputedStyle(document.documentElement).zoom)||1;
+    var finLista=lista.getBoundingClientRect().bottom/z;
+
+    function coloca(el,meta,resta){
+      var puesto=parseFloat(el.dataset.wy||0)||0;
+      var natural=el.getBoundingClientRect().top/z-puesto;
+      /* al final de la lista se van juntas, sin perder el escalon */
+      var tope=finLista-el.offsetHeight-(resta||0);
+      var quiero=Math.max(natural, Math.min(meta, tope));
+      var w=Math.round(quiero-natural);
+      if(w!==puesto){
+        el.style.transform = w ? 'translate3d(0,'+w+'px,0)' : '';
+        el.dataset.wy=w;
+      }
+    }
+
+    var n=fichas.length;
+    if(cab) coloca(cab,BASE,0);
+    for(var i=0;i<n;i++) coloca(fichas[i],BASE+i*PASO,(n-1-i)*PASO);
+  }
+  function pedirAnclado(){ if(!raf) raf=requestAnimationFrame(anclar); }
 
   function montar(){
     var top=document.querySelector('.service-details-top-content');
     if(!top || top.dataset.wsvc) return;
     var h4=top.querySelector('h4');
-    var lista=top.querySelector('ul');
-    if(!h4 || !lista) return;
+    var vieja=top.querySelector('ul');
+    if(!h4 || !vieja) return;
     top.dataset.wsvc='1';
 
     var caja=document.createElement('div');
     caja.className='wsvc-inc';
-    var cab=document.createElement('div');
+    cab=document.createElement('div');
     cab.className='wsvc-inc-head';
     caja.appendChild(cab);
     top.insertBefore(caja,h4);
 
-    /* la cabecera se lleva el titulo y el parrafo que va justo debajo */
     var sig=h4.nextElementSibling;
     cab.appendChild(h4);
     if(sig && sig.tagName==='P') cab.appendChild(sig);
 
-    /* la UL original arrastra reglas de Webflow y de dreamlikew que
-       pelean con el apilado; se construye una OL limpia y se le pasan
-       los nodos tal cual, asi el traductor sigue funcionando */
+    /* lista nueva y limpia: la UL original arrastra reglas de Webflow */
     var nueva=document.createElement('ol');
     nueva.className='wsvc-inc-list';
-    var viejos=[].slice.call(lista.children);
+    var viejos=[].slice.call(vieja.children);
     for(var v=0;v<viejos.length;v++){
-      var n=document.createElement('li');
-      while(viejos[v].firstChild) n.appendChild(viejos[v].firstChild);
-      nueva.appendChild(n);
+      var li=document.createElement('li');
+      var card=document.createElement('div');
+      card.className='wsvc-card';
+      while(viejos[v].firstChild) card.appendChild(viejos[v].firstChild);
+      var n=document.createElement('span');
+      n.className='wsvc-nr'; n.setAttribute('aria-hidden','true');
+      n.textContent=(v+1<10?'0':'')+(v+1);
+      card.appendChild(n);
+      li.appendChild(card);
+      nueva.appendChild(li);
     }
-    lista.parentNode.removeChild(lista);
+    vieja.parentNode.removeChild(vieja);
     caja.appendChild(nueva);
 
-    var li=nueva.children;
-    for(var i=0;i<li.length;i++){
-      li[i].style.setProperty('--i',i);
-      if(!li[i].querySelector('.wsvc-nr')){
-        var n=document.createElement('span');
-        n.className='wsvc-nr';
-        n.setAttribute('aria-hidden','true');
-        n.textContent=(i+1<10?'0':'')+(i+1);
-        li[i].appendChild(n);
-      }
-      verAlEntrar(li[i],i);
-    }
+    lista=nueva;
+    fichas=[].slice.call(nueva.children);
+    for(var i=0;i<fichas.length;i++) verAlEntrar(fichas[i].firstElementChild,i);
     verAlEntrar(cab,0);
+
+    addEventListener('scroll',pedirAnclado,{passive:true});
+    addEventListener('resize',pedirAnclado);
+    (MQ.addEventListener?MQ.addEventListener('change',pedirAnclado):MQ.addListener(pedirAnclado));
+    pedirAnclado();
+    setTimeout(pedirAnclado,400);
+    setTimeout(pedirAnclado,1500);
   }
 
-  /* si el traductor rehace la lista, hay que volver a poner numeros */
+  /* si el traductor rehace las fichas, hay que reponer los numeros */
   function repasar(){
-    var lista=document.querySelector('.wsvc-inc-list');
     if(!lista) return;
-    var li=lista.children;
-    for(var i=0;i<li.length;i++){
-      li[i].style.setProperty('--i',i);
-      if(!li[i].querySelector('.wsvc-nr')){
+    for(var i=0;i<fichas.length;i++){
+      var card=fichas[i].firstElementChild;
+      if(card && !card.querySelector('.wsvc-nr')){
         var n=document.createElement('span');
         n.className='wsvc-nr'; n.setAttribute('aria-hidden','true');
         n.textContent=(i+1<10?'0':'')+(i+1);
-        li[i].appendChild(n);
-        li[i].classList.add('wr-on');
+        card.appendChild(n); card.classList.add('wr-on');
       }
     }
+    pedirAnclado();
   }
 
   function init(){
     montar();
     var raiz=document.querySelector('.main-wrapper')||document.body;
     if(window.MutationObserver){
-      new MutationObserver(function(){ montar(); }).observe(raiz,{childList:true});
+      new MutationObserver(function(){ lista=null; cab=null; fichas=[]; montar(); }).observe(raiz,{childList:true});
       new MutationObserver(function(){ setTimeout(repasar,120); setTimeout(repasar,600); })
         .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
     }
