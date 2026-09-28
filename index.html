@@ -14391,4 +14391,216 @@ body.wsl-lock #wisi-wafab{opacity:0!important;pointer-events:none!important}
   function init(){ vigilarAnos(); intentar(0); }
   if(document.readyState==='complete') setTimeout(init,300);
   else addEventListener('load',function(){ setTimeout(init,300); });
+})();</script><style id="wisi-ueber">/* ==================================================================
+   BLOQUE "UEBER UNS" + LIMPIEZA (Sofia / BALI Flow) - 28-09-2026
+   Sofia: "cambia del todo la pagina Ueber uns, quita los subrayados
+   azules de todas las paginas y quita el icono de * del fondo".
+   Afecta a escritorio y movil, por eso va en su propio bloque.
+   ================================================================== */
+
+/* --- U1. Fuera los subrayados azules y el asterisco de fondo ------ */
+/* Son SVG decorativos de la plantilla. En casi todas las paginas ya
+   estaban ocultos; en Ueber uns seguian saliendo. */
+html body img[class*="highlight-image"],
+html body img[class*="subtitle-image"],
+html body img[class*="titile-highlight"],
+html body .trusted-partner-flower-image{display:none!important}
+
+/* --- U2. Cabecera de la pagina ----------------------------------- */
+html body .about-banner-section{padding:78px 0 64px}
+html body .about-banner-title-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+html body .about-banner-title-wrap .banner-title{margin:0;font-size:clamp(38px,5vw,64px);line-height:1.05;letter-spacing:-1.6px}
+html body .wu-lead{margin:0;max-width:620px;text-align:center;
+  font-size:clamp(17px,1.6vw,21px);line-height:1.5;font-weight:400;color:#5c5f66;letter-spacing:0}
+
+/* --- U3. Bloque de entrada: tres piezas de la misma altura -------- */
+/* Antes eran tres cajas sueltas a distinta altura y debajo una banda
+   de cinco logotipos vacios que dejaba un hueco enorme. */
+html body .trusted-partner-section{padding:24px 0 96px}
+html body .trusted-partner-heading-block{max-width:900px;margin:0 auto 46px;text-align:center}
+html body .trusted-partner-heading-block h2{margin:0;font-size:clamp(30px,3.4vw,46px);line-height:1.1;letter-spacing:-1.2px;text-wrap:balance}
+html body .trusted-partner-card-wrapper{
+  display:grid!important;grid-template-columns:1fr 1.06fr 1fr;gap:20px;align-items:stretch;
+  margin:0!important;padding:0!important;position:static}
+/* la tarjeta oscura llevaba grid-column:1/3 y creaba una columna de mas */
+html body .trusted-partner-card-wrapper>*{grid-column:auto!important;grid-row:auto!important}
+html body .trusted-partner-card-wrapper .trusted-partner-image-block,
+html body .trusted-partner-card-wrapper .trusted-partner-card-block{
+  position:static!important;inset:auto!important;margin:0!important;width:auto!important;
+  max-width:none!important;transform:none!important;height:var(--wuh,440px)}
+html body .trusted-partner-card-wrapper .trusted-partner-image-block{border-radius:20px;overflow:hidden}
+html body .trusted-partner-card-wrapper .trusted-partner-image{
+  width:100%!important;height:100%!important;object-fit:cover;display:block;border-radius:0!important}
+html body .trusted-partner-card-wrapper .trusted-partner-card-block{
+  display:flex;flex-direction:column;justify-content:space-between;gap:22px;
+  padding:34px 32px;border-radius:20px;background:#222222}
+html body .trusted-partner-card-wrapper .trusted-partner-card-block .text-xl{
+  margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.5;color:#fff}
+html body .trusted-partner-info-wrap{margin:0!important}
+
+/* --- U4. Cifras --------------------------------------------------- */
+html body .counter-section{padding:0 0 96px}
+html body .counter-content-block{max-width:780px;margin:0 auto 54px}
+html body .counter-description{
+  margin:0;text-align:center;font-weight:400!important;
+  font-size:clamp(17px,1.6vw,20px);line-height:1.6;color:#5c5f66}
+html body .counter-content-logo{display:none!important}
+
+/* --- U5. "Ein kleiner Betrieb": texto y foto en dos columnas ------ */
+html body .why-us-section{padding:0 0 96px}
+html body .why-us-content-wrapper{
+  display:grid!important;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+html body .why-us-content-block{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+html body .why-us-text-block{order:1;margin:0 0 22px}
+html body .why-us-text-block h2{margin:0 0 14px;font-size:clamp(28px,3.1vw,42px);line-height:1.1;letter-spacing:-1.1px}
+html body .why-us-text-block .text-lg{margin:0;color:#5c5f66}
+html body .why-us-feature-block{order:2;margin:0 0 28px;display:flex;flex-wrap:wrap;gap:10px}
+html body .why-us-feature{margin:0!important}
+html body .why-us-button-wrap{order:3;margin:0!important}
+html body .why-us-image-block{border-radius:20px;overflow:hidden;margin:0!important}
+html body .why-us-image{width:100%!important;height:100%!important;object-fit:cover;display:block}
+
+/* --- U6. Equipo: una sola seccion con las dos fichas -------------- */
+/* Antes habia dos secciones: retratos sueltos arriba y las biografias
+   mucho mas abajo, con la formacion en una caja aparte. */
+html body .team-section{padding:0 0 112px}
+html body .team-heading-block{margin:0 auto 46px;text-align:center}
+html body .team-heading-block h2{margin:0;font-size:clamp(30px,3.4vw,46px);line-height:1.1;letter-spacing:-1.2px}
+html body .team-member-content-block{
+  display:grid!important;grid-template-columns:1fr 1fr;gap:40px;align-items:start;
+  max-width:none!important;margin:0!important}
+html body .team-member-card{
+  width:auto!important;max-width:none!important;margin:0!important;
+  display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+html body .team-member-image{
+  width:100%!important;max-width:none!important;height:clamp(260px,26vw,380px)!important;
+  object-fit:cover;object-position:center 18%;border-radius:18px;display:block;margin:0 0 20px!important}
+html body .team-member-card .team-text-block{text-align:left!important;margin:0!important;padding:0!important}
+html body .team-member-card .team-text-block h6{margin:0 0 4px;font-size:22px;letter-spacing:-.4px}
+html body .team-member-card .team-text-block .text-md{color:#009BD2;font-weight:600}
+html body .wu-bio{margin:18px 0 0;display:flex;flex-direction:column;gap:12px}
+html body .wu-bio p{margin:0;font-size:16.5px;line-height:1.6;color:#5c5f66}
+html body .team-button-wrapper{margin:48px 0 0!important;display:flex;justify-content:center}
+
+/* --- U7. Formacion, en una caja ancha y en dos columnas ----------- */
+html body .wu-form{margin:52px 0 0}
+html body .wu-form .wbio-box{
+  background:#FBFAF8;border-radius:16px;padding:34px 36px;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;
+  gap:12px 52px;align-content:start}
+html body .wu-form .wbio-box h4{margin:0;font-size:19px;letter-spacing:-.3px;align-self:end}
+html body .wu-form .wbio-box>h4:nth-of-type(1){grid-column:1;grid-row:1}
+html body .wu-form .wbio-box>dl:nth-of-type(1){grid-column:1;grid-row:2}
+html body .wu-form .wbio-box>h4:nth-of-type(2){grid-column:2;grid-row:1}
+html body .wu-form .wbio-box>dl:nth-of-type(2){grid-column:2;grid-row:2}
+html body .wu-form .wbio-box dl{margin:0}
+html body .wbio-sec{display:none!important}
+
+/* --- U8. Zona de trabajo: tres columnas no caben en el movil ------ */
+@media (max-width:860px){
+  html body .warea-in{grid-template-columns:1fr!important;gap:14px!important}
+  html body .warea-col{width:auto!important;min-width:0}
+  html body .warea-list{grid-template-columns:1fr!important}
+}
+@media (min-width:861px) and (max-width:1100px){
+  html body .warea-in{grid-template-columns:1fr 1fr!important}
+}
+
+/* --- U9. Movil ---------------------------------------------------- */
+@media (max-width:860px){
+  html body .trusted-partner-card-wrapper{grid-template-columns:1fr;gap:14px}
+  html body .trusted-partner-card-wrapper .trusted-partner-image-block,
+  html body .trusted-partner-card-wrapper .trusted-partner-card-block{height:auto}
+  html body .trusted-partner-card-wrapper .trusted-partner-image{height:62vw!important;min-height:230px}
+  html body .trusted-partner-card-wrapper .trusted-partner-card-block{padding:26px 24px}
+  html body .why-us-content-wrapper{grid-template-columns:1fr;gap:30px}
+  html body .why-us-image-block{order:-1}
+  html body .team-member-content-block{grid-template-columns:1fr;gap:34px}
+  html body .team-member-image{height:64vw!important;min-height:250px}
+  /* las cuatro cifras, en dos filas de dos */
+  html body .counter-wrapper{display:grid!important;grid-template-columns:1fr 1fr;gap:30px 12px;
+    align-items:start;justify-items:center}
+  html body .counter-wrapper .stats-divider{display:none!important}
+  html body .counter-wrapper .stats-single-block{width:100%;text-align:center}
+  html body .counter-content-block{margin-bottom:40px}
+  html body .wu-form .wbio-box{grid-template-columns:1fr;grid-template-rows:none;padding:26px 22px;gap:10px}
+  html body .wu-form .wbio-box>h4,
+  html body .wu-form .wbio-box>dl{grid-column:1!important;grid-row:auto!important}
+  html body .wu-form .wbio-box>h4:nth-of-type(2){margin-top:16px}
+  html body .about-banner-section{padding:46px 0 34px}
+  html body .trusted-partner-section,
+  html body .counter-section,
+  html body .why-us-section,
+  html body .team-section{padding-bottom:60px}
+}</style><script id="wisi-ueber-js">/* Ueber uns reordenada (Sofia / BALI Flow) - 28-09-2026
+   Solo se mueven nodos que ya existen, nunca se escribe texto nuevo:
+   asi el traductor de dreamlikew sigue funcionando en DE, EN y ES.
+   El router rehace el DOM en cada navegacion, por eso se vuelve a
+   montar con un observer. */
+(function(){
+  function montar(){
+    var team=document.querySelector('.team-section');
+    if(!team || team.dataset.wu) return;
+    var bio=document.querySelector('.wbio-sec');
+    var tp=document.querySelector('.trusted-partner-section');
+    if(!bio || !tp) return;
+    team.dataset.wu='1';
+
+    /* 1. la frase de la cabecera sube al titulo de la pagina */
+    var lead=tp.querySelector('.trusted-partner-logo-wrapper .h4-style');
+    var head=document.querySelector('.about-banner-title-wrap');
+    if(lead && head){ lead.classList.add('wu-lead'); head.appendChild(lead); }
+    var logos=tp.querySelector('.trusted-partner-logo-wrapper');
+    if(logos) logos.remove();
+
+    /* 2. fuera los dos textos repetidos: la historia de la empresa ya
+          esta en el parrafo de las cifras, y la frase de Sonja al final
+          de su biografia */
+    var hist=bio.querySelector('.wbio-hist'); if(hist) hist.remove();
+    var bot=team.querySelector('.team-bottom-text-block'); if(bot) bot.remove();
+
+    /* 3. cada biografia se mete debajo de su retrato */
+    var col=bio.querySelector('.wbio-col');
+    var cards=team.querySelectorAll('.team-member-card');
+    if(col && cards.length===2){
+      var kids=[].slice.call(col.children), corte=[], i;
+      for(i=0;i<kids.length;i++) if(/wbio-h(\s|$)/.test(kids[i].className+' ')) corte.push(i);
+      if(corte.length===2){
+        var grupos=[kids.slice(corte[0],corte[1]), kids.slice(corte[1])];
+        for(i=0;i<2;i++){
+          var caja=document.createElement('div');
+          caja.className='wu-bio';
+          grupos[i].forEach(function(n){
+            if(/wbio-h|wbio-role/.test(n.className)) n.remove();
+            else caja.appendChild(n);
+          });
+          cards[i].appendChild(caja);
+        }
+        col.remove();
+      }
+    }
+
+    /* 4. la caja de formacion cierra la seccion del equipo */
+    var caja2=bio.querySelector('.wbio-box');
+    if(caja2){
+      var env=document.createElement('div');
+      env.className='wu-form';
+      env.appendChild(caja2);
+      var cont=team.querySelector('.container')||team;
+      var btn=cont.querySelector('.team-button-wrapper');
+      if(btn) cont.insertBefore(env,btn); else cont.appendChild(env);
+    }
+    if(!bio.querySelector('.wbio-box, .wbio-col')) bio.remove();
+  }
+
+  function init(){
+    montar();
+    var raiz=document.querySelector('.main-wrapper')||document.body;
+    if(window.MutationObserver){
+      new MutationObserver(function(){ montar(); }).observe(raiz,{childList:true});
+    }
+    addEventListener('hashchange',function(){ setTimeout(montar,120); setTimeout(montar,600); setTimeout(montar,1400); });
+  }
+  if(document.readyState==='complete') setTimeout(init,300);
+  else addEventListener('load',function(){ setTimeout(init,300); });
 })();</script>
