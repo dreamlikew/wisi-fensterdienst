@@ -13714,6 +13714,22 @@ window.__renderInitial=function(){route()};
   .about-section{padding-bottom:24px!important}
   .project-section{padding-top:24px!important}
   .project-section .stc-head{margin-bottom:22px!important}
+}
+
+/* ==================================================================
+   DECIMA PASADA (tras el pull del 28-09)
+   ================================================================== */
+
+/* --- 71. Fila del hero: tres puntos en una columna --------------- */
+/* dreamlikew dejo la fila en 4 puntos (sin Festpreis). En movil se
+   mantienen solo tres: la regla 34 sigue ocultando el ultimo,
+   "In einem Besuch erledigt". Con dos columnas quedaba uno suelto,
+   asi que van en una sola columna, uno debajo de otro. */
+@media (max-width:767px){
+  .wisi-hfc .features-content-wrapper{
+    grid-template-columns:minmax(0,1fr)!important;gap:18px!important;
+    max-width:300px;margin-left:auto!important;margin-right:auto!important}
+  .wisi-hfc .features-content-wrapper > .feature-widget{grid-column:auto!important}
 }</style><script id="wisi-movil-js">/* Movil: dos retoques que no se pueden hacer solo con CSS.
    1. Mueve la maqueta del chat justo encima del formulario, para que se
       vea lo que se va a enviar mientras se rellena, no al final.
