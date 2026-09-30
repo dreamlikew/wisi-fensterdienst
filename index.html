@@ -14180,7 +14180,11 @@ html body .faq-content-wrapper{display:block!important}
 html body .faq-content-wrapper .faq-titile-block{
   position:static!important;top:auto!important;left:auto!important;
   right:auto!important;bottom:auto!important;transform:none!important;
-  width:auto!important;max-width:780px!important;margin:0 0 30px!important}
+  width:auto!important;max-width:780px!important;margin:0 auto 30px!important;text-align:center}
+/* Sofia (30-09): titulo, texto y filtros centrados sobre la lista */
+html body .faq-titile-block .faq-descriptions-width-440{margin-left:auto!important;margin-right:auto!important}
+html body .faq-tabs{text-align:center}
+html body .faq-tabs-menu{text-align:left}
 html body .faq-titile-wrap{margin:0 0 10px}
 html body .faq-titile-block .content-titile{
   margin:0;font-size:clamp(30px,3.6vw,50px);line-height:1.08;letter-spacing:-1.3px}
@@ -14205,12 +14209,12 @@ html body .faq-tab-link .faq-tab-link-text{font-size:18px;font-weight:600!import
 html body .faq-tab-link:hover .faq-tab-link-text{color:#222222!important}
 html body .faq-tab-link.w--current .faq-tab-link-text{color:#222222!important}
 html body .faq-tab-arrow-icon{display:none!important}
-html body .faq-tabs-content{width:auto!important;max-width:none!important}
+html body .faq-tabs-content{width:auto!important;max-width:none!important;margin-left:0!important;text-align:left}
 html body .faq-tab-pane-subtitle{display:none!important}
 @media (max-width:991px){
   html body .faq-titile-block{margin-bottom:22px!important}
   html body .faq-tabs-menu{gap:8px;margin-bottom:22px!important}
-  html body .faq-tabs-menu{justify-content:flex-start!important}
+  html body .faq-tabs-menu{justify-content:center!important}
   html body .faq-tab-link{padding:8px 12px!important}
   html body .faq-tab-link .faq-tab-link-text{font-size:15px}
 }</style><script id="wisi-esc-js">/* Bloque de escritorio (Sofia / BALI Flow) - 28-09-2026
@@ -14654,8 +14658,20 @@ html body .why-us-content-block{display:flex;flex-direction:column;align-items:f
 html body .why-us-text-block{order:1;margin:0 0 22px}
 html body .why-us-text-block h2{margin:0 0 14px;font-size:clamp(28px,3.1vw,42px);line-height:1.1;letter-spacing:-1.1px}
 html body .why-us-text-block .text-lg{margin:0;color:#5c5f66}
-html body .why-us-feature-block{order:2;margin:0 0 28px;display:flex;flex-wrap:wrap;gap:10px}
-html body .why-us-feature{margin:0!important}
+/* Sofia (30-09): las cuatro ventajas con icono, como "Wer kommt zu Ihnen
+   nach Hause" en la portada, en vez de pastillas */
+html body .why-us-feature-block{order:2;margin:0 0 30px;display:grid;grid-template-columns:1fr 1fr;gap:18px 26px}
+html body .why-us-feature{margin:0!important;padding:0!important;border:0!important;background:none!important;
+  border-radius:0!important;display:flex;align-items:center;gap:14px;
+  font-size:17.5px!important;line-height:1.35;font-weight:600!important;color:#222222}
+html body .wu-ico{flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+  background:#E6F6FC;color:#009BD2}
+html body .wu-ico svg{width:24px;height:24px}
+
+/* iconos encima de las cifras; la nota de Google, con estrella amarilla */
+html body .counter-section .stats-single-block{display:flex;flex-direction:column;align-items:center}
+html body .counter-section .stats-single-block .wu-ico{margin:0 0 14px}
+html body .counter-section .wu-ico.wu-star{background:#FFF4D6}
 html body .why-us-button-wrap{order:3;margin:0!important}
 html body .why-us-image-block{border-radius:20px;overflow:hidden;margin:0!important}
 html body .why-us-image{width:100%!important;height:100%!important;object-fit:cover;display:block}
@@ -14701,48 +14717,41 @@ html body .wu-note-ico svg{width:17px;height:17px}
 html body .team-button-wrapper{margin:48px 0 0!important;display:flex;justify-content:center}
 
 
-/* --- U7. Formacion: linea de tiempo y barra de anos de oficio ----- */
+/* --- U7. Formacion y oficio, las dos en horizontal ---------------- */
+/* Sofia (30-09): la formacion como linea de tiempo horizontal, y las
+   estaciones debajo, en la misma caja: cada una ocupa lo que duro, bajo su
+   tramo de la barra. */
 html body .wu-form{margin:40px 0 0}
-html body .wu-form .wbio-box{
-  background:#FBFAF8;border-radius:20px;padding:36px 40px;
-  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;
-  gap:0 64px;align-content:start}
+html body .wu-form .wbio-box{background:#FBFAF8;border-radius:20px;padding:36px 40px;display:block}
 html body .wu-form .wbio-box h4{margin:0 0 22px;font-size:20px;letter-spacing:-.3px}
-html body .wu-form .wbio-box>h4:nth-of-type(1){grid-column:1;grid-row:1}
-html body .wu-form .wbio-box>dl:nth-of-type(1){grid-column:1;grid-row:2/4}
-html body .wu-form .wbio-box>h4:nth-of-type(2){grid-column:2;grid-row:1}
-html body .wu-form .wbio-box>.wu-bar{grid-column:2;grid-row:2}
-html body .wu-form .wbio-box>dl:nth-of-type(2){grid-column:2;grid-row:3}
+html body .wu-form .wbio-box>h4:nth-of-type(2){margin-top:40px}
 html body .wu-form .wbio-box dl{margin:0}
 html body .wu-form dl dt,html body .wu-form dl dd{margin:0;padding:0;border:0}
-html body .wu-form dl dd{font-size:16px;line-height:1.45;color:#3a3a39}
-
-/* anos: la misma etiqueta de contorno que "Seit 1988 in Einsiedeln" */
+html body .wu-form dl dd{font-size:15.5px;line-height:1.45;color:#3a3a39}
 html body .wu-form dl dt{
   justify-self:start;align-self:start;display:inline-flex;align-items:center;gap:8px;
   padding:4px 12px;border-radius:40px;background:#fff;border:1px solid #E9E8E5;
   font-size:14px;line-height:1.3;font-weight:600;color:#222222;white-space:nowrap}
 
-/* linea de tiempo: un punto por curso, unidos por una raya */
-html body .wu-tl{position:relative;display:grid;grid-template-columns:auto 1fr;
-  gap:16px 18px;align-items:start;padding-left:26px}
-html body .wu-tl::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;
-  width:2px;background:#E9E8E5}
+/* linea de tiempo: una columna por curso; el punto, sobre la raya */
+html body .wu-tl{position:relative;display:grid;grid-auto-flow:column;grid-template-rows:auto auto;
+  grid-template-columns:none;grid-auto-columns:minmax(0,1fr);gap:12px 18px;padding-top:26px}
+html body .wu-tl::before{content:"";position:absolute;left:0;right:0;top:5px;height:2px;background:#E9E8E5}
 html body .wu-tl dt{position:relative}
-html body .wu-tl dt::before{content:"";position:absolute;left:-26px;top:50%;margin-top:-6px;
+html body .wu-tl dt::before{content:"";position:absolute;left:12px;top:-26px;
   width:12px;height:12px;border-radius:50%;background:#009BD2;box-shadow:0 0 0 4px #FBFAF8}
-html body .wu-tl dd{padding-top:3px}
+html body .wu-tl dd{padding-right:6px}
 
-/* barra de anos de oficio: cada tramo mide lo que duro */
-html body .wu-bar{display:flex;gap:4px;height:14px;margin:0 0 22px}
+/* barra y estaciones, con las mismas columnas */
+html body .wu-bar{display:flex;gap:18px;height:12px;margin:0 0 16px}
 html body .wu-bar span{display:block;border-radius:4px;min-width:14px}
 html body .wu-bar span:nth-child(1),html body .wu-st dt:nth-of-type(1)::before{background:#BFE6F4}
 html body .wu-bar span:nth-child(2),html body .wu-st dt:nth-of-type(2)::before{background:#80CDE9}
 html body .wu-bar span:nth-child(3),html body .wu-st dt:nth-of-type(3)::before{background:#40B4DE}
 html body .wu-bar span:nth-child(4),html body .wu-st dt:nth-of-type(4)::before{background:#009BD2}
-html body .wu-st{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:start}
+html body .wu-st{display:grid;grid-auto-flow:column;grid-template-rows:auto auto;
+  grid-template-columns:var(--wu-cols,1fr 1fr 1fr 1fr);gap:10px 18px}
 html body .wu-st dt::before{content:"";width:10px;height:10px;border-radius:3px}
-html body .wu-st dd{padding-top:3px}
 html body .wbio-sec{display:none!important}
 
 
@@ -14774,13 +14783,17 @@ html body .wbio-sec{display:none!important}
   html body .counter-wrapper .stats-divider{display:none!important}
   html body .counter-wrapper .stats-single-block{width:100%;text-align:center}
   html body .counter-content-block{margin-bottom:40px}
-  html body .wu-form .wbio-box{grid-template-columns:1fr;grid-template-rows:none;padding:26px 22px;gap:0}
-  html body .wu-form .wbio-box>h4,
-  html body .wu-form .wbio-box>dl,
-  html body .wu-form .wbio-box>.wu-bar{grid-column:1!important;grid-row:auto!important}
+  html body .wu-form .wbio-box{padding:26px 22px}
   html body .wu-form .wbio-box>h4:nth-of-type(2){margin-top:34px}
-  html body .wu-tl,html body .wu-st{grid-template-columns:1fr;gap:6px}
+  /* en movil, en vertical otra vez: seis columnas no caben */
+  html body .wu-tl,html body .wu-st{grid-auto-flow:row;grid-template-rows:none;
+    grid-template-columns:1fr!important;gap:6px}
+  html body .wu-tl{padding:0 0 0 26px}
+  html body .wu-tl::before{left:5px;right:auto;top:10px;bottom:10px;width:2px;height:auto}
+  html body .wu-tl dt::before{left:-26px;top:50%;margin-top:-6px}
   html body .wu-tl dd,html body .wu-st dd{padding:0 0 10px}
+  html body .wu-bar{gap:4px}
+  html body .why-us-feature-block{grid-template-columns:1fr;gap:14px}
   html body .about-banner-section{padding:46px 0 34px}
   html body .trusted-partner-section,
   html body .counter-section,
@@ -14821,6 +14834,29 @@ html body .wbio-sec{display:none!important}
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>'
   ];
+
+  /* iconos con el mismo circulo azul claro que "Wer kommt zu Ihnen nach
+     Hause" de la portada (clases wab-ico y wli de la web) */
+  function svg(d){ return '<svg class="wli" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'; }
+  var I_PIN=svg('<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>');
+  var I_ESC=svg('<path d="M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/>');
+  var I_BUS=svg('<path d="M3 6.5h11v10H3z"/><path d="M14 9.5h4l3 3.5v3.5h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/>');
+  var I_RELOJ=svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>');
+  var I_CAL=svg('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>');
+  var I_ESTRELLA='<svg class="wli" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6-5.38-2.83-5.38 2.83 1.03-6L3.3 9.6l6-.9z" fill="#F5B301" stroke="#F5B301" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+  function icono(el,ico,extra){
+    if(!el || el.querySelector('.wu-ico')) return;
+    var b=document.createElement('span');
+    b.className='service-details-why-choose-icon-block wab-ico wu-ico'+(extra?' '+extra:'');
+    b.innerHTML=ico;
+    el.insertBefore(b,el.firstChild);
+  }
+  function iconos(){
+    var ch=document.querySelectorAll('.why-us-feature'), ic=[I_PIN,I_ESC,I_BUS,I_RELOJ];
+    for(var i=0;i<ch.length&&i<4;i++) icono(ch[i],ic[i]);
+    var st=document.querySelectorAll('.counter-section .stats-single-block'), is=[I_CAL,I_PIN,I_ESTRELLA,I_RELOJ];
+    for(var j=0;j<st.length&&j<4;j++) icono(st[j],is[j],j===2?'wu-star':'');
+  }
 
   var PRECIO=['Festpreis','Fixed price','Precio cerrado','Precio fijo'];
 
@@ -14971,21 +15007,25 @@ html body .wbio-sec{display:none!important}
           bar.appendChild(seg);
         }
         dls[1].parentNode.insertBefore(bar,dls[1]);
+        /* Sofia (30-09): todo en horizontal; cada estacion ocupa lo que
+           duro, alineada con su tramo de la barra */
+        var fr=[]; for(var k2=0;k2<dts.length;k2++) fr.push((parseInt(dts[k2].textContent,10)||1)+'fr');
+        dls[1].style.setProperty('--wu-cols',fr.join(' '));
       }
     }
     if(!bio.querySelector('.wbio-box, .wbio-col')) bio.remove();
   }
 
   function init(){
-    montar(); anos(); stat38();
+    montar(); anos(); stat38(); iconos();
     var raiz=document.querySelector('.main-wrapper')||document.body;
     if(window.MutationObserver){
-      new MutationObserver(function(){ montar(); setTimeout(anos,60); setTimeout(stat38,60); }).observe(raiz,{childList:true});
+      new MutationObserver(function(){ montar(); setTimeout(anos,60); setTimeout(stat38,60); setTimeout(iconos,80); }).observe(raiz,{childList:true});
       new MutationObserver(function(){ setTimeout(anos,80); setTimeout(anos,500); })
         .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
     }
     addEventListener('hashchange',function(){
-      [120,600,1400].forEach(function(t){ setTimeout(function(){ montar(); anos(); stat38(); },t); });
+      [120,600,1400].forEach(function(t){ setTimeout(function(){ montar(); anos(); stat38(); iconos(); },t); });
     });
   }
   if(document.readyState==='complete') setTimeout(init,300);
@@ -15340,6 +15380,9 @@ html body .contact-content-wrapper .contact-content-block{
   width:auto!important;max-width:760px!important;margin:0 auto 30px!important;
   text-align:center}
 html body .contact-content-wrapper .contact-text-block{text-align:center}
+/* Sofia (30-09): la cabecera media 496 px sin margen automatico y quedaba
+   a la izquierda del centro de los formularios */
+html body .contact-content-wrapper .contact-content-top-content{margin-left:auto!important;margin-right:auto!important}
 html body .contact-content-wrapper .contact-list-block{
   display:inline-flex;flex-direction:column;gap:10px;text-align:left;margin:0 auto}
 
@@ -15364,8 +15407,9 @@ html body .wkt-mail .contact-input-field.text-area{min-height:150px}
 html body .wkt-list{display:flex!important;flex-direction:column;align-items:center;gap:14px;
   margin:44px auto 0!important;text-align:center;background:none!important;padding:0!important;
   border:0!important;width:100%!important;max-width:none!important}
-html body .wkt-list .contact-list-item-block{display:flex!important;flex-direction:row!important;flex-wrap:wrap;
-  justify-content:center;gap:10px 26px;margin-top:0}
+/* los tres checks, uno debajo de otro y el grupo centrado */
+html body .wkt-list .contact-list-item-block{display:flex!important;flex-direction:column!important;
+  align-items:flex-start;gap:12px;margin-top:0;text-align:left}
 html body .wkt-list .contact-list-item{font-size:16px!important}
 
 /* las etiquetas de los dos formularios, iguales */
@@ -15423,7 +15467,6 @@ html body .wkt-time{margin:6px 2px 0;font-size:11.5px;color:#8a8d93;text-align:r
   html body .wkt-mail .contact-input-field.text-area{min-height:110px}
   html body .wkt-list{margin-top:32px!important}
   html body .wkt-list{align-items:flex-start;text-align:left}
-  html body .wkt-list .contact-list-item-block{flex-direction:column!important;align-items:flex-start}
   html body .wkt-card{padding:24px 22px 26px;border-radius:16px}
   html body .contact-content-wrapper .contact-content-block{margin-bottom:26px!important}
   html body .wkt-h{font-size:19px}
