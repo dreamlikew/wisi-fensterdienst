@@ -15707,6 +15707,18 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
 .wrv-tools .wrv-end{color:#fff;background:rgba(255,255,255,.08)}
 .wrv-tools .wrv-end:hover{background:#D64545}
 
+/* borradores de texto: Verwerfen y Speichern */
+.wrv-drafts{display:none;gap:4px}
+.wrv-tools .wrv-save{background:#1FA855;color:#fff}
+.wrv-tools .wrv-save:hover{background:#18904a;color:#fff}
+.wrv-save em{font-style:normal;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:rgba(255,255,255,.25);font-size:12px;line-height:20px;text-align:center}
+.wrv-save em:empty{display:none}
+.wrv-drawer-sub{margin:8px 2px 0;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#8a8d93}
+.wrv-old,.wrv-new{margin:0 0 4px;padding:6px 9px;border-radius:7px;font-size:13.5px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+.wrv-old{background:#FCEBEB;color:#9B2C2C;text-decoration:line-through}
+.wrv-new{background:#E4F7EC;color:#17693A}
+.wrv-edit-card{cursor:default}
+
 /* --- cursor "Kommentar hier" ------------------------------------------------ */
 .wrv-cursor{position:fixed;z-index:2147483003;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;
   background:#009BD2;color:#fff;font-size:12.5px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .12s;
@@ -15735,6 +15747,18 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
   background:#fff;color:#222222;font:600 12.5px/1 "Instrument Sans",Inter,system-ui,sans-serif;cursor:pointer}
 .wrv-mini svg{width:14px;height:14px}
 .wrv-mini:hover{border-color:#009BD2;color:#009BD2}
+
+/* estado: nuevo (azul o negro si es tuyo), en marcha (ambar), aplicado o hecho (verde), revisado (gris) */
+.wrv-pin.wrv-f-arbeit .wrv-pin-n,.wrv-card.wrv-f-arbeit .wrv-card-n{background:#E8A317}
+.wrv-pin.wrv-f-live .wrv-pin-n,.wrv-pin.wrv-f-hecho .wrv-pin-n,
+.wrv-card.wrv-f-live .wrv-card-n,.wrv-card.wrv-f-hecho .wrv-card-n{background:#1FA855}
+.wrv-pin.wrv-f-visto .wrv-pin-n,.wrv-card.wrv-f-visto .wrv-card-n{background:#9A9DA3}
+.wrv-st{display:inline-block;margin:0 0 6px;padding:2px 8px;border-radius:6px;font-size:11.5px;font-weight:700;line-height:1.5;
+  background:#E6F6FC;color:#009BD2;white-space:nowrap}
+.wrv-card-top .wrv-st{margin:0 0 0 auto}
+.wrv-st.wrv-f-arbeit{background:#FFF1D6;color:#A26A00}
+.wrv-st.wrv-f-live,.wrv-st.wrv-f-hecho{background:#E4F7EC;color:#17693A}
+.wrv-st.wrv-f-visto{background:#F1F1F1;color:#6B6F76}
 
 /* --- ventana de comentario --------------------------------------------------- */
 .wrv-pop{position:fixed;z-index:2147483001;width:330px;max-width:calc(100vw - 24px);padding:16px;border-radius:16px;
@@ -15778,9 +15802,10 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
 .wrv-intro-card h3{margin:0 0 6px;font-size:22px;line-height:1.2;letter-spacing:-.4px}
 .wrv-intro-p{margin:0 0 18px;color:#5c5f66;font-size:15px;line-height:1.5}
 .wrv-intro-row{display:flex;gap:14px;align-items:flex-start;margin:0 0 14px}
-.wrv-intro-ico{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#E6F6FC;color:#009BD2}
+.wrv-intro-ico{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid!important;place-items:center;background:#E6F6FC;color:#009BD2}
+.wrv-intro-ico svg{width:20px;height:20px;display:block}
 .wrv-intro-row b{display:block;font-size:15px;margin:0 0 2px}
-.wrv-intro-row span{display:block;font-size:14px;line-height:1.45;color:#5c5f66}
+.wrv-intro-row div span{display:block;font-size:14px;line-height:1.45;color:#5c5f66}
 .wrv-intro-card .wrv-btn{width:100%;margin-top:8px;padding:12px}
 
 /* --- volver al modo revision ---------------------------------------------------- */
@@ -15796,7 +15821,7 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
 .wrv-toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media (max-width:900px){
-  .wrv-brand b,.wrv-listb span,.wrv-end span{display:none}
+  .wrv-brand b,.wrv-listb span,.wrv-end span,.wrv-discard span{display:none}
   .wrv-brand{padding:0 4px}
 }
 @media (max-width:600px){
@@ -15825,7 +15850,9 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
   var T={
     de:{mode:'Review', comment:'Kommentieren', text:'Text ändern', nav:'Navigieren', list:'Kommentare', end:'Beenden',
         hComment:'Klicken Sie auf eine Stelle der Seite, um sie zu kommentieren.',
-        hText:'Klicken Sie in einen Text und schreiben Sie direkt. Änderungen werden automatisch gesendet.',
+        hText:'Klicken Sie in einen Text und ändern Sie ihn. Wenn alles stimmt, auf „Speichern“ klicken.',
+        saveN:'Speichern', discard:'Verwerfen', savedN:'Gespeichert. Wir übernehmen die Änderungen in die Website.',
+        leaveQ:'Sie haben ungespeicherte Textänderungen. Jetzt speichern?', editsT:'Ihre Textänderungen',
         hNav:'Die Seite funktioniert normal: Links und Menü sind aktiv.',
         cursor:'Kommentar hier', ph:'Was möchten Sie hier ändern?', name:'Ihr Name', img:'Bild anhängen', imgRm:'Bild entfernen',
         send:'Senden', save:'Speichern', cancel:'Abbrechen', edit:'Bearbeiten', del:'Löschen', delQ:'Diesen Kommentar löschen?',
@@ -15838,10 +15865,13 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
         i1:'Klicken Sie auf eine Stelle und schreiben Sie, was Ihnen auffällt. Sie können auch ein Bild anhängen.',
         i2:'Korrigieren Sie Texte direkt auf der Seite. Wir übernehmen die Änderung danach.',
         i3:'Ihre Kommentare finden Sie in der Liste. Dort können Sie sie bearbeiten oder löschen.',
-        go:"Los geht's"},
+        go:"Los geht's",
+        st:{neu:'Neu',arbeit:'In Arbeit',live:'Umgesetzt',hecho:'Erledigt',visto:'Geprüft'}},
     en:{mode:'Review', comment:'Comment', text:'Edit text', nav:'Browse', list:'Comments', end:'Exit',
         hComment:'Click anywhere on the page to comment on it.',
-        hText:'Click into any text and type. Changes are sent automatically.',
+        hText:'Click into any text and change it. When you are happy, click “Save”.',
+        saveN:'Save', discard:'Discard', savedN:'Saved. We will apply the changes to the website.',
+        leaveQ:'You have unsaved text changes. Save them now?', editsT:'Your text changes',
         hNav:'The page works as usual: links and menu are active.',
         cursor:'Comment here', ph:'What would you like to change here?', name:'Your name', img:'Attach image', imgRm:'Remove image',
         send:'Send', save:'Save', cancel:'Cancel', edit:'Edit', del:'Delete', delQ:'Delete this comment?',
@@ -15854,10 +15884,13 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
         i1:'Click any spot and write what you notice. You can attach an image too.',
         i2:'Correct texts directly on the page. We apply the change afterwards.',
         i3:'Your comments are in the list, where you can edit or delete them.',
-        go:"Let's go"},
+        go:"Let's go",
+        st:{neu:'New',arbeit:'In progress',live:'Done on the site',hecho:'Done',visto:'Reviewed'}},
     es:{mode:'Revisión', comment:'Comentar', text:'Cambiar texto', nav:'Navegar', list:'Comentarios', end:'Salir',
         hComment:'Haz clic en cualquier punto de la página para comentarlo.',
-        hText:'Haz clic en un texto y escribe directamente. Los cambios se envían solos.',
+        hText:'Haz clic en un texto y cámbialo. Cuando esté bien, pulsa «Guardar».',
+        saveN:'Guardar', discard:'Descartar', savedN:'Guardado. Aplicaremos los cambios en la web.',
+        leaveQ:'Tienes cambios de texto sin guardar. ¿Guardarlos ahora?', editsT:'Tus cambios de texto',
         hNav:'La página funciona normal: enlaces y menú activos.',
         cursor:'Comentar aquí', ph:'¿Qué quieres cambiar aquí?', name:'Tu nombre', img:'Adjuntar imagen', imgRm:'Quitar imagen',
         send:'Enviar', save:'Guardar', cancel:'Cancelar', edit:'Editar', del:'Borrar', delQ:'¿Borrar este comentario?',
@@ -15870,7 +15903,8 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
         i1:'Haz clic en un punto y escribe lo que veas. También puedes adjuntar una imagen.',
         i2:'Corrige los textos directamente en la página. Después aplicamos el cambio.',
         i3:'Tus comentarios están en la lista, donde puedes editarlos o borrarlos.',
-        go:'Empezar'}
+        go:'Empezar',
+        st:{neu:'Nuevo',arbeit:'En marcha',live:'Aplicado',hecho:'Hecho',visto:'Revisado'}}
   };
   function L(){ var l=(document.documentElement.lang||'de').slice(0,2).toLowerCase(); return T[l]||T.de; }
   function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
@@ -15887,6 +15921,8 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     end:ico('<path d="M18 6 6 18M6 6l12 12"/>'),
     img:ico('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>'),
     edit:ico('<path d="M15.6 3.9a2 2 0 0 1 2.9 0l1.6 1.6a2 2 0 0 1 0 2.9L8.8 19.7l-4.6 1 1-4.6z"/>'),
+    save:ico('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    undo:ico('<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>'),
     del:ico('<path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/>')
   };
 
@@ -15929,6 +15965,11 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     for(var i=0;i<s.length;i++) if(s[i].contains(n)) return s[i];
     return null;
   }
+  /* estado de cada comentario, tal como lo ve el cliente */
+  function fase(st){
+    return st==='open'?'neu':st==='published'?'live':st==='done'?'hecho':st==='rejected'?'visto':'arbeit';
+  }
+  function editable_(it){ return it.mine && (it.status||'open')==='open'; }
   function fecha(s){ return (s||'').slice(0,16).replace('T',' '); }
 
   /* --- aviso -------------------------------------------------------------- */
@@ -15942,6 +15983,8 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
 
   /* --- estado --------------------------------------------------------------- */
   var ON=false, TOOL='comment', items=[];
+  function comentarios(){ return items.filter(function(i){ return i.kind!=='edit'; }); }
+  function cambiosTexto(){ return items.filter(function(i){ return i.kind==='edit'; }); }
 
   /* --- barra de herramientas --------------------------------------------------- */
   function barra(){
@@ -15956,6 +15999,8 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
             '<button type="button" data-t="text">'+I.text+'<span></span></button>'+
             '<button type="button" data-t="nav">'+I.nav+'<span></span></button>'+
           '</span>'+
+          '<span class="wrv-drafts"><button type="button" class="wrv-discard">'+I.undo+'<span></span></button>'+
+            '<button type="button" class="wrv-save">'+I.save+'<span></span><em></em></button></span>'+
           '<button type="button" class="wrv-listb">'+I.list+'<span></span><em></em></button>'+
           '<button type="button" class="wrv-end" aria-label="">'+I.end+'<span></span></button>'+
         '</div>');
@@ -15963,6 +16008,8 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
         x.addEventListener('click',function(){ herramienta(x.getAttribute('data-t')); });
       });
       b.querySelector('.wrv-listb').addEventListener('click',function(){ lista(!document.querySelector('.wrv-drawer')); });
+      b.querySelector('.wrv-save').addEventListener('click',guardarTextos);
+      b.querySelector('.wrv-discard').addEventListener('click',descartar);
       b.querySelector('.wrv-end').addEventListener('click',function(){ activar(false); });
       document.body.appendChild(b);
     }
@@ -15976,6 +16023,11 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     });
     b.querySelector('.wrv-listb span').textContent=t.list;
     b.querySelector('.wrv-listb em').textContent=items.length||'';
+    var n=pendientes().length;
+    b.querySelector('.wrv-drafts').style.display=(TOOL==='text'&&n)?'flex':'none';
+    b.querySelector('.wrv-save span').textContent=t.saveN;
+    b.querySelector('.wrv-save em').textContent=n||'';
+    b.querySelector('.wrv-discard span').textContent=t.discard;
     b.querySelector('.wrv-end span').textContent=t.end;
     b.querySelector('.wrv-end').setAttribute('aria-label',t.end);
     b.querySelector('.wrv-hint').textContent=TOOL==='comment'?t.hComment:TOOL==='text'?t.hText:t.hNav;
@@ -15983,6 +16035,9 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
   }
 
   function herramienta(k){
+    if(TOOL==='text' && k!=='text' && pendientes().length){
+      if(confirm(L().leaveQ)) guardarTextos(); else descartar();
+    }
     TOOL=k; ls('wisiRvTool',k);
     cerrarPop();
     document.documentElement.classList.toggle('wrv-t-comment',ON&&k==='comment');
@@ -16041,18 +16096,20 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     if(!ON) return;
     var mapa={};
     secciones().forEach(function(x){ mapa[clave(x)]=x; });
-    items.forEach(function(it,i){
+    reaplicar();
+    comentarios().forEach(function(it,i){
       var sec=mapa[it.section]; if(!sec) return;
       if(getComputedStyle(sec).position==='static') sec.classList.add('wrv-rel');
-      var p=el('div','wrv-pin wrv-ui'+(it.mine?' mine':''));
+      var p=el('div','wrv-pin wrv-ui wrv-f-'+fase(it.status)+(it.mine?' mine':''));
       p.setAttribute('data-id',it.id);
       p.style.left=(it.x==null?96:it.x)+'%'; p.style.top=(it.y==null?4:it.y)+'%';
       var n=txt(el('button','wrv-pin-n'),String(i+1)); n.type='button';
       p.appendChild(n);
       var tip=el('div','wrv-tip');
+      tip.appendChild(txt(el('span','wrv-st wrv-f-'+fase(it.status)),L().st[fase(it.status)]));
       tip.appendChild(txt(el('p','wrv-tip-q'),it.text||''));
       tip.appendChild(txt(el('p','wrv-tip-w'),meta(it)));
-      if(it.mine){
+      if(editable_(it)){
         var a=el('div','wrv-tip-acts');
         var be=el('button','wrv-mini',I.edit+'<span></span>'); be.type='button'; be.querySelector('span').textContent=L().edit;
         var bd=el('button','wrv-mini',I.del+'<span></span>'); bd.type='button'; bd.querySelector('span').textContent=L().del;
@@ -16097,15 +16154,22 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     x.addEventListener('click',function(){ lista(false); });
     h.appendChild(x); d.appendChild(h);
     if(!items.length){ d.appendChild(txt(el('p','wrv-empty'),t.empty)); return; }
-    items.forEach(function(it,i){
-      var c=el('div','wrv-card'+(it.mine?' mine':''));
+    var ed=cambiosTexto();
+    if(ed.length){
+      d.appendChild(txt(el('p','wrv-drawer-sub'),t.editsT));
+      ed.forEach(function(it){ d.appendChild(tarjetaTexto(it)); });
+      if(comentarios().length) d.appendChild(txt(el('p','wrv-drawer-sub'),t.list));
+    }
+    comentarios().forEach(function(it,i){
+      var c=el('div','wrv-card wrv-f-'+fase(it.status)+(it.mine?' mine':''));
       var top=el('div','wrv-card-top');
       top.appendChild(txt(el('span','wrv-card-n'),String(i+1)));
       top.appendChild(txt(el('span','wrv-card-sec'),it.section_label||''));
+      top.appendChild(txt(el('span','wrv-st wrv-f-'+fase(it.status)),t.st[fase(it.status)]));
       c.appendChild(top);
       c.appendChild(txt(el('p','wrv-card-q'),it.text||''));
       c.appendChild(txt(el('p','wrv-card-w'),meta(it)));
-      if(it.mine){
+      if(editable_(it)){
         var a=el('div','wrv-card-acts');
         var be=el('button','wrv-mini',I.edit+'<span></span>'); be.type='button'; be.querySelector('span').textContent=t.edit;
         var bd=el('button','wrv-mini',I.del+'<span></span>'); bd.type='button'; bd.querySelector('span').textContent=t.del;
@@ -16300,35 +16364,91 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
     return partes.join(' > ');
   }
   function editando(){ var c=document.documentElement.classList; return c.contains('wisi-edit')||c.contains('wrv-edit'); }
-  function enviarCambios(){
-    var t=L(), lista_=sucios; sucios=[];
+  function norm(t){ return (t||'').replace(/\s+/g,' ').trim(); }
+  function textoDe(e){ return (e.innerText||e.textContent||'').trim(); }
+  function pendientes(){ return sucios.filter(function(e){ return ORIG.has(e) && norm(ORIG.get(e))!==norm(textoDe(e)); }); }
+
+  /* envia los textos cambiados; el servidor junta en uno los cambios del
+     mismo texto y borra los que vuelven al original */
+  function enviarCambios(lista_,ok){
+    var t=L(), env=[];
     lista_.forEach(function(e){
-      var antes=ORIG.get(e), ahora=(e.innerText||e.textContent||'').trim();
-      if(antes===undefined || antes===ahora) return;
-      if(!ls('wisiRvKey')){ toast(t.nokey,true); return; }
+      var antes=ORIG.get(e), ahora=textoDe(e);
+      if(antes===undefined || norm(antes)===norm(ahora)) return;
       var sec=seccionDe(e);
-      api('POST','/items',{kind:'edit',page:page(),section:sec?clave(sec):'',sectionLabel:ETIQ.get(e)||(sec?etiqueta(sec):''),
+      env.push(api('POST','/items',{kind:'edit',page:page(),section:sec?clave(sec):'',sectionLabel:ETIQ.get(e)||(sec?etiqueta(sec):''),
         path:ruta(e),oldText:antes,newText:ahora,name:ls('wisiRvName')||'',lang:document.documentElement.lang,
-        viewport:innerWidth+'x'+innerHeight})
-      .then(function(){ ORIG.set(e,ahora); toast(t.sent); })
-      .catch(function(){ sucios.push(e); toast(t.err,true); });
+        viewport:innerWidth+'x'+innerHeight}).then(function(){ ORIG.set(e,ahora); }));
+    });
+    if(!env.length) return Promise.resolve();
+    if(!ls('wisiRvKey')){ toast(t.nokey,true); return Promise.resolve(); }
+    return Promise.all(env).then(function(){ toast(ok||t.sent); cargar(); })
+      .catch(function(){ toast(t.err,true); });
+  }
+  /* "Text ändern": nada se envia hasta que el cliente pulsa Guardar */
+  function guardarTextos(){
+    var l=pendientes(); sucios=[];
+    enviarCambios(l,L().savedN).then(function(){ if(ON) barra(); });
+  }
+  function descartar(){
+    pendientes().forEach(function(e){ e.innerText=ORIG.get(e); });
+    sucios=[]; if(ON) barra();
+  }
+  /* el cliente ve sus propios cambios guardados mientras no se publican */
+  function reaplicar(){
+    cambiosTexto().forEach(function(it){
+      if(it.status==='rejected' || !it.path) return;
+      var e=null; try{ e=document.querySelector('.main-wrapper > '+it.path); }catch(x){}
+      if(!e || e.contains(document.activeElement)) return;
+      if(norm(textoDe(e))===norm(it.old_text)){ e.innerText=it.new_text; ORIG.set(e,it.new_text); }
     });
   }
+  function tarjetaTexto(it){
+    var t=L(), c=el('div','wrv-card wrv-edit-card wrv-f-'+fase(it.status));
+    var top=el('div','wrv-card-top');
+    top.appendChild(txt(el('span','wrv-card-sec'),it.section_label||''));
+    top.appendChild(txt(el('span','wrv-st wrv-f-'+fase(it.status)),t.st[fase(it.status)]));
+    c.appendChild(top);
+    c.appendChild(txt(el('p','wrv-old'),it.old_text||''));
+    c.appendChild(txt(el('p','wrv-new'),it.new_text||''));
+    if((it.status||'open')==='open'){
+      var a=el('div','wrv-card-acts');
+      var bd=el('button','wrv-mini',I.undo+'<span></span>'); bd.type='button'; bd.querySelector('span').textContent=t.discard;
+      bd.addEventListener('click',function(e){
+        e.stopPropagation();
+        api('DELETE','/items/'+it.id).then(function(){
+          var x=null; try{ x=document.querySelector('.main-wrapper > '+it.path); }catch(y){}
+          if(x && norm(textoDe(x))===norm(it.new_text)){ x.innerText=it.old_text; ORIG.set(x,it.old_text); }
+          toast(t.deleted); cargar();
+        }).catch(function(){ toast(t.err,true); });
+      });
+      a.appendChild(bd); c.appendChild(a);
+    }
+    return c;
+  }
+
   document.addEventListener('beforeinput',function(e){
     if(!editando() || (e.target.closest && e.target.closest('.wrv-ui'))) return;
     var sel=getSelection(); var b=bloqueDe(sel&&sel.anchorNode); if(!b || b.closest('.wrv-ui')) return;
     if(!ORIG.has(b)){
-      ORIG.set(b,(b.innerText||b.textContent||'').trim());
+      ORIG.set(b,textoDe(b));
       var s0=seccionDe(b); ETIQ.set(b,s0?etiqueta(s0):'');
     }
     if(sucios.indexOf(b)<0) sucios.push(b);
   },true);
+  /* en "Text ändern" solo se cuenta; en el modo edicion del panel Debug
+     (vista de desarrollo) se sigue enviando solo, ya juntado en el servidor */
+  function debug(){ var c=document.documentElement.classList; return c.contains('wisi-edit') && !c.contains('wrv-edit'); }
   document.addEventListener('input',function(e){
     if(!editando() || (e.target.closest && e.target.closest('.wrv-ui'))) return;
-    clearTimeout(envT); envT=setTimeout(enviarCambios,2500);
+    if(debug()){ clearTimeout(envT); envT=setTimeout(function(){ var l=sucios; sucios=[]; enviarCambios(l); },2500); }
+    else if(ON) barra();
   },true);
-  document.addEventListener('focusout',function(){ if(sucios.length){ clearTimeout(envT); envT=setTimeout(enviarCambios,300); } },true);
-  addEventListener('hashchange',function(){ if(sucios.length) enviarCambios(); });
+  document.addEventListener('focusout',function(){
+    if(debug() && sucios.length){ clearTimeout(envT); envT=setTimeout(function(){ var l=sucios; sucios=[]; enviarCambios(l); },300); }
+  },true);
+  addEventListener('hashchange',function(){ if(sucios.length){ var l=sucios; sucios=[]; enviarCambios(l, debug()?null:L().savedN); } });
+  addEventListener('beforeunload',function(e){ if(ON && pendientes().length){ e.preventDefault(); e.returnValue=''; } });
 
   /* --- arranque ------------------------------------------------------------------------ */
   function init(){
@@ -16350,4 +16470,50 @@ html.wrv-edit .main-wrapper :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label):focus-within
   }
   if(document.readyState==='complete') setTimeout(init,400);
   else addEventListener('load',function(){ setTimeout(init,400); });
+})();</script><style id="wisi-cliente">/* Cambios pedidos por el cliente (review/cliente.py, no editar a mano) */</style><script id="wisi-cliente-js">(function(){
+  /* Cambios pedidos por el cliente en el modo revision y aplicados por el
+     agente (BALI Flow). Los genera review/cliente.py: no editar a mano. */
+  var C=[];
+  var SALTA={SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1};
+  function lang(){ return (document.documentElement.lang||'de').slice(0,2).toLowerCase(); }
+  function norm(t){ return (t||'').replace(/\s+/g,' ').trim(); }
+  function textos(l){
+    var r=[];
+    C.forEach(function(c){ (c.textos||[]).forEach(function(t){ if(t[l]&&t[l][0]!==t[l][1]) r.push(t[l]); }); });
+    return r;
+  }
+  function aplicar(){
+    var l=lang(), pares=textos(l);
+    if(pares.length){
+      /* 1. nodos de texto que coinciden enteros */
+      var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null), n, nodos=[];
+      while((n=w.nextNode())) nodos.push(n);
+      nodos.forEach(function(n){
+        var p=n.parentElement; if(!p||SALTA[p.tagName]||p.closest('.wrv-ui,#wisi-dbg')) return;
+        var v=norm(n.nodeValue); if(!v) return;
+        for(var i=0;i<pares.length;i++) if(v===norm(pares[i][0])){ var nuevo=pares[i][1]; n.nodeValue=n.nodeValue.replace(/\S[\s\S]*\S|\S/,function(){ return nuevo; }); return; }
+      });
+      /* 2. elementos cuyo texto esta repartido en varios nodos */
+      var els=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,dt,dd,label,a,button,span,b,strong,div');
+      for(var j=0;j<els.length;j++){
+        var e=els[j];
+        if(e.closest('.wrv-ui,#wisi-dbg') || e.querySelector('img,svg,input,textarea,select,video')) continue;
+        var t=norm(e.innerText||e.textContent);
+        /* el mas interior: si un hijo tiene el mismo texto, se cambia el hijo */
+        if([].some.call(e.children,function(h){ return norm(h.innerText||h.textContent)===t; })) continue;
+        for(var k=0;k<pares.length;k++) if(t===norm(pares[k][0])){ e.textContent=pares[k][1]; break; }
+      }
+    }
+    C.forEach(function(c){ if(c.fn) try{ c.fn(); }catch(x){} });
+  }
+  var t;
+  function luego(){ clearTimeout(t); t=setTimeout(aplicar,120); }
+  function init(){
+    aplicar();
+    new MutationObserver(luego).observe(document.body,{childList:true,subtree:true});
+    new MutationObserver(function(){ setTimeout(aplicar,80); setTimeout(aplicar,500); })
+      .observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  }
+  if(document.readyState==='complete') setTimeout(init,500);
+  else addEventListener('load',function(){ setTimeout(init,500); });
 })();</script>
