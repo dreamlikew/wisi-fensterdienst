@@ -12002,4 +12002,18 @@ html body .wmb-sec{padding-top:0!important}
 html body .wmb-sec .wfx-fx p.wmb-lead{text-align:center!important;max-width:592px!important;margin:18px auto 40px!important;font-size:19px!important;line-height:1.55!important;font-weight:500!important;color:#5c5f66!important}
 /* S2. Martin & Sonja: las biografías ya no se igualan en altura (la de Sonja es más larga y dejaba un hueco grande bajo la de Martin) */
 html body .team-member-card .wu-bio>p:first-child{min-height:0!important}
+/* S3. Barra "Dienstleistungen A/B": es una herramienta para elegir diseño, solo se ve con el panel Debug abierto */
+html:not(.wisi-dbg-on) #wsvab{display:none!important}
+@media (max-width:767px){
+/* S4. Trayectoria de Martin: la columna del año medía 120 px y el texto 98 px; palabras como "Lehrlingsausbildung" desbordaban la página (418 px en 390) */
+html body section.wu-s-form dl.wu-tl,html body section.wu-s-form dl.wu-st{grid-template-columns:84px minmax(0,1fr)!important}
+html body .wu-tl dd,html body .wu-st dd{min-width:0;overflow-wrap:break-word;hyphens:auto}
+/* S5. Títulos de las tarjetas de servicio: en móvil se cortaban con "…" (Fenstersan…); ahora pasan a dos líneas */
+html body .service-card-title{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:break-word;hyphens:auto}
+html body .wsvc-car .service-card-title{font-size:16px!important}
+/* S6. Foto de cabecera de las páginas de servicio: 580 px de alto llenaban la primera pantalla; ahora 300 px */
+html body .service-details-section .blog-details-banner-image{height:300px!important;object-fit:cover!important}
+/* S7. Título de la vista previa del WhatsApp: se cortaba con "…" */
+html body .wisi-prev-tit{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+}
 </style><script id="wisi-kit" src="https://bali-feedback.pages.dev/kit.js" data-site="wisi" data-sections=".main-wrapper > section, .main-wrapper > div, .wf-wrap" data-root=".main-wrapper" data-langs="de,en,es" data-lang-key="wisiLang" data-lang="de" defer></script>
