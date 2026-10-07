@@ -9,6 +9,34 @@
 		history.replaceState(null, "", location.pathname + location.search + "#" + W.route + (h ? "#" + h.slice(1) : ""));
 	}
 
+	// Internal tools (Debug panel, edit mode, Super Editar) stay off on the public site:
+	// clear their saved state and stop the right-click on the logo that opens the panel.
+	try { ["wisiDbgOn", "wisiEdit", "wisiDbgPos", "wisiDbgMin"].forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {}
+	window.addEventListener("contextmenu", function (e) {
+		if (e.target.closest && e.target.closest(".nav-brand, #wisi-dbg")) e.stopImmediatePropagation();
+	}, true);
+	var off = document.createElement("style");
+	off.textContent = "#wisi-dbg,#wse,#wse-rs,#wse-g,#wfs,.wisi-pip{display:none!important}";
+	document.head.appendChild(off);
+
+	// Every page gets one <h1>: pages whose title is an <h2> get an invisible <h1> wrapper
+	// (display:contents, inherits everything), so the look stays the same.
+	function ensureH1() {
+		var all = document.querySelectorAll("h1");
+		for (var i = 0; i < all.length; i++) if (all[i].offsetParent || all[i].style.display === "contents") return;
+		var c = document.querySelectorAll(".main-wrapper h2.h2-style, .main-wrapper h2.content-titile, .main-wrapper h2");
+		for (var j = 0; j < c.length; j++) {
+			if (!c[j].offsetParent || c[j].closest("header, nav, footer, .w-nav, .footer-section")) continue;
+			var w = document.createElement("h1");
+			w.style.cssText = "all:inherit;display:contents";
+			c[j].parentNode.insertBefore(w, c[j]);
+			w.appendChild(c[j]);
+			return;
+		}
+	}
+	window.addEventListener("load", function () { setTimeout(ensureH1, 300); });
+	window.addEventListener("hashchange", function () { setTimeout(ensureH1, 300); });
+
 	// The app resets document.title on render; on this page's route in German keep the SEO title.
 	function lang() { try { return localStorage.getItem("wisiLang") || "de"; } catch (e) { return "de"; } }
 	function keepTitle() {

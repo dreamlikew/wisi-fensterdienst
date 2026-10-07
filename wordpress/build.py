@@ -63,7 +63,8 @@ def main():
         os.path.join(OUT, "app", "og.jpg"), "JPEG", quality=84, optimize=True, progressive=True)
 
     html = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
-    html = re.sub(r'<script id="wisi-kit"[^>]*></script>', "", html)
+    html, n_kit = re.subn(r'<script id="wisi-kit".*?</script>', "", html, flags=re.S)
+    assert n_kit == 1, "feedback kit not found"
 
     def img(m):
         name = renamed.get(m.group(2), m.group(2))
