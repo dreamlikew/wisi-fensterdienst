@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wisi Fensterdienst – Website
  * Description: Zeigt die neue Wisi-Website (Repo dreamlikew/wisi-fensterdienst) auf allen Seiten mit dem Feld «wisi_route». Andere Seiten bleiben unverändert.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: BALI Flow
