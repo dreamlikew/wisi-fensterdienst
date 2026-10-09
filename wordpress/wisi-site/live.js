@@ -2,8 +2,9 @@
 	// Texts and photos changed in WordPress (option «wisi_overrides») replace the originals
 	// whenever the app puts them on the page, and the header gets the extra links of the
 	// WordPress menu «Wisi: zusätzliche Links im Header». Runs for every visitor.
+	// Also: changed link targets, hidden blocks, the holiday notice and added Merkblätter.
 	var W = window.WISI_WP, O = W.overrides || {};
-	var OT = O.texts || {}, OI = O.images || {};
+	var OT = O.texts || {}, OI = O.images || {}, OL = O.links || {}, OH = O.hidden || {};
 	var SKIP = "script,style,template,noscript,#wisi-ed";
 
 	function norm(s) { return s.replace(/[\s ]+/g, " ").trim(); }
@@ -106,26 +107,169 @@
 		});
 	}
 
+	// ---------- Links: key = original address + original link text ----------
+	function origText(el, max) {
+		var out = [], tw = document.createTreeWalker(el, 4, null), n;
+		while ((n = tw.nextNode())) {
+			if (n.parentElement && n.parentElement.closest("script,style")) continue;
+			var r = T.get(n), v = r ? r.orig : norm(n.nodeValue);
+			// Only words count: animated numbers (counters) would change the key.
+			if (/[A-Za-zÀ-ÿ]{2}/.test(v)) out.push(v);
+		}
+		return out.join(" ").slice(0, max || 200);
+	}
+	function linkKey(a) {
+		var href = a.dataset.wisiHref != null ? a.dataset.wisiHref : (a.getAttribute("href") || "");
+		return href + "|" + origText(a);
+	}
+	function fixLink(a) {
+		if (a.closest(SKIP)) return;
+		var cur = a.getAttribute("href") || "";
+		if (a.dataset.wisiHrefShown != null && cur === a.dataset.wisiHrefShown) return;
+		a.dataset.wisiHref = cur;
+		delete a.dataset.wisiHrefShown;
+		var o = OL[linkKey(a)];
+		if (o && o.href) {
+			if (!a.hasAttribute("data-wisi-target")) a.setAttribute("data-wisi-target", a.getAttribute("target") || "");
+			a.setAttribute("href", o.href);
+			a.dataset.wisiHrefShown = o.href;
+			a.setAttribute("data-wisi-link", "1");
+			if (o.blank) { a.target = "_blank"; a.rel = "noopener"; } else a.removeAttribute("target");
+		} else if (a.hasAttribute("data-wisi-link")) {
+			a.removeAttribute("data-wisi-link");
+			var tg = a.getAttribute("data-wisi-target");
+			if (tg) a.target = tg; else a.removeAttribute("target");
+		}
+	}
+	// The app has its own click handlers on some buttons; a changed link must win over them.
+	window.addEventListener("click", function (e) {
+		if (document.documentElement.classList.contains("wisi-editing")) return;
+		var a = e.target.closest && e.target.closest("a[data-wisi-link]");
+		if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey) return;
+		e.preventDefault(); e.stopImmediatePropagation();
+		if (a.target === "_blank") window.open(a.href, "_blank", "noopener"); else location.href = a.href;
+	}, true);
+
+	// ---------- Hidden blocks: only sections and cards that can go without breaking the layout ----------
+	var SECTION = ".main-wrapper > section:not(.hero-section):not(.service-details-section):not(.project-banner-section):not(.services-banner-section):not(.wwa-sec):not(.contact-section):not(.wpg-sec):not(.wmb-sec)";
+	var CARD = ".feature-widget, .stc-card, .w-dyn-item, .stats-single-block, .team-member-card, .faq-list-item, .wmb-card, .contact-info-card, .service-card, .wfq2-i";
+	function unitKey(el) { return (el.classList[0] || el.tagName) + "|" + origText(el, 120); }
+	// Outermost card around el (a .service-card inside a .w-dyn-item hides the whole grid cell), and its section.
+	function unitsOf(el) {
+		var card = null, sec = null, x = el;
+		while (x && x !== document.body) {
+			if (x.matches && x.matches(CARD)) card = x;
+			if (x.matches && x.matches(SECTION)) { sec = x; break; }
+			x = x.parentElement;
+		}
+		if (card && card.closest("footer, .footer-section, header, .w-nav")) card = null;
+		return { card: card, section: sec };
+	}
+	var hideCss = document.createElement("style");
+	hideCss.textContent = ".wisi-hide{display:none!important}";
+	document.head.appendChild(hideCss);
+	function fixHidden() {
+		var els = document.querySelectorAll(SECTION + "," + CARD);
+		for (var i = 0; i < els.length; i++) {
+			var e = els[i], h = !!OH[unitKey(e)];
+			if (h !== e.classList.contains("wisi-hide")) e.classList.toggle("wisi-hide", h);
+		}
+	}
+
+	// ---------- Holiday notice above the header ----------
+	function fixNotice() {
+		var N = W.notice;
+		if (!N || !N.text || document.querySelector(".wisi-notice")) return;
+		try { if (sessionStorage.getItem("wisiNoticeOff") === N.text) return; } catch (e) {}
+		var hd = document.querySelector(".header");
+		if (!hd || !hd.parentElement) return;
+		var d = document.createElement("div");
+		d.className = "wisi-notice";
+		d.setAttribute("role", "status");
+		d.style.cssText = "position:relative;z-index:1001;padding:10px 52px 10px 16px;background:#009bd2;color:#fff;font-size:15px;line-height:1.4;text-align:center;font-weight:500";
+		var s = document.createElement("span");
+		s.textContent = N.text;
+		var x = document.createElement("button");
+		x.type = "button";
+		x.setAttribute("aria-label", "Hinweis schliessen");
+		x.textContent = "×";
+		x.style.cssText = "position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:22px;line-height:1;cursor:pointer";
+		x.onclick = function () { d.remove(); try { sessionStorage.setItem("wisiNoticeOff", N.text); } catch (e) {} };
+		d.appendChild(s); d.appendChild(x);
+		hd.parentElement.insertBefore(d, hd);
+	}
+
+	// ---------- Added Merkblätter: copies of the first card ----------
+	var DOC = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420"><rect width="300" height="420" fill="#eef6fa"/><path d="M95 90h80l40 40v190a10 10 0 0 1-10 10H95a10 10 0 0 1-10-10V100a10 10 0 0 1 10-10z" fill="#fff" stroke="#009bd2" stroke-width="6"/><path d="M175 90v40h40" fill="none" stroke="#009bd2" stroke-width="6"/><path d="M110 180h80M110 210h80M110 240h55" stroke="#9cc9dc" stroke-width="8" stroke-linecap="round"/></svg>');
+	function fixMerkblaetter() {
+		var M = W.merkblaetter || [];
+		if (!M.length) return;
+		var g = document.querySelector(".wmb-grid");
+		if (!g || g.querySelector("[data-wisi-mb]")) return;
+		var tpl = g.querySelector(".wmb-card");
+		if (!tpl) return;
+		M.forEach(function (m) {
+			var c = tpl.cloneNode(true);
+			c.setAttribute("data-wisi-mb", "1");
+			c.classList.remove("wisi-hide");
+			c.setAttribute("href", m.url);
+			var tt = c.querySelector(".wmb-t");
+			if (tt) tt.textContent = m.title;
+			var im = c.querySelector("img");
+			if (im) {
+				["wisiOrig", "wisiShown", "wisiOrigSrc", "wisiOrigAlt"].forEach(function (k) { delete im.dataset[k]; });
+				im.removeAttribute("srcset");
+				im.setAttribute("src", m.thumb || DOC);
+				im.setAttribute("alt", m.title);
+			}
+			g.appendChild(c);
+		});
+	}
+
+	function any(o) { for (var k in o) return true; return false; }
+	var queued = false, last = 0;
+	function pass() {
+		queued = false; last = Date.now();
+		if (any(OL) || document.querySelector("a[data-wisi-link]")) {
+			var a = document.querySelectorAll("a[href]");
+			for (var i = 0; i < a.length; i++) fixLink(a[i]);
+		}
+		fixNotice();
+		fixMerkblaetter();
+		if (any(OH) || document.querySelector(".wisi-hide")) fixHidden();
+	}
+	// At most every 200 ms: animations change texts many times per second.
+	function schedule() {
+		if (queued) return;
+		queued = true;
+		setTimeout(function () { (window.requestAnimationFrame || setTimeout)(pass); }, Math.max(0, 200 - (Date.now() - last)));
+	}
+
 	// Our own writes come back here too; fixText/fixImg see them as already shown and stop.
 	var mo = new MutationObserver(function (list) {
 		for (var i = 0; i < list.length; i++) {
 			var m = list[i];
 			if (m.type === "characterData") fixText(m.target);
-			else if (m.type === "attributes") fixImg(m.target);
+			else if (m.type === "attributes") { if (m.attributeName !== "href") fixImg(m.target); }
 			else for (var j = 0; j < m.addedNodes.length; j++) scan(m.addedNodes[j]);
 		}
 		addMenu();
+		schedule();
 	});
-	mo.observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["src", "style"] });
-	document.addEventListener("DOMContentLoaded", function () { scan(document.body); addMenu(); });
+	mo.observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["src", "style", "href"] });
+	document.addEventListener("DOMContentLoaded", function () { scan(document.body); addMenu(); pass(); });
 
 	// For the editor: original text of a node, and a way to show new values right away.
 	window.WISI_LIVE = {
 		norm: norm,
 		imgId: imgId,
 		origOf: function (n) { var r = T.get(n); return r ? r.orig : norm(n.nodeValue); },
+		origText: origText,
+		linkKey: linkKey,
+		unitKey: unitKey,
+		unitsOf: unitsOf,
 		setOverrides: function (o) {
-			O = o || {}; OT = O.texts || {}; OI = O.images || {};
+			O = o || {}; OT = O.texts || {}; OI = O.images || {}; OL = O.links || {}; OH = O.hidden || {};
 			W.overrides = O;
 			var tw = document.createTreeWalker(document.body, 5, null), n, all = [];
 			while ((n = tw.nextNode())) all.push(n);
@@ -144,6 +288,12 @@
 					fixImg(x);
 				}
 			});
+			var as = document.querySelectorAll("a[data-wisi-href-shown]");
+			for (var i = 0; i < as.length; i++) {
+				as[i].setAttribute("href", as[i].dataset.wisiHref);
+				delete as[i].dataset.wisiHrefShown;
+			}
+			pass();
 		}
 	};
 })();

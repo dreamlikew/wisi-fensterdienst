@@ -35,3 +35,6 @@ html.wisi-editing a, html.wisi-editing button { cursor: pointer; }
 	#wisi-ed .wed-hint { display: none; }
 	#wisi-ed .wed-panel.wed-open { top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
 }
+#wisi-ed select.wed-in, #wisi-ed input.wed-in { margin-bottom: 6px; }
+#wisi-ed .wed-hide .wed-btn { margin: 0 6px 6px 0; }
+#wisi-ed .wed-more .wed-link { text-align: left; }

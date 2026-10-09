@@ -5,7 +5,11 @@
 	var NOEDIT = "script,style,template,noscript,svg,input,textarea,select,option,.wwa-msg,#wisi-ed";
 
 	function clone(o) { return JSON.parse(JSON.stringify(o || {})); }
-	function clean(o) { o = clone(o); o.texts = o.texts && !Array.isArray(o.texts) ? o.texts : {}; o.images = o.images && !Array.isArray(o.images) ? o.images : {}; return o; }
+	function clean(o) {
+		o = clone(o);
+		["texts", "images", "links", "hidden"].forEach(function (k) { o[k] = o[k] && !Array.isArray(o[k]) ? o[k] : {}; });
+		return o;
+	}
 	var saved = clean(W.overrides), draft = clone(saved), on = false, sel = null, root, bar, panel, toastEl;
 
 	function dirty() { return JSON.stringify(draft) !== JSON.stringify(saved); }
@@ -62,9 +66,14 @@
 			m = h("div", "wed-more");
 			var u = h("button", "wed-link", "Letzte Speicherung rückgängig machen");
 			u.onclick = undo;
+			var nh = Object.keys(draft.hidden).length;
+			var hb = h("button", "wed-link", "Ausgeblendete Elemente (" + nh + ")");
+			hb.onclick = function () { m.remove(); openHidden(); };
+			var st = h("a", "wed-link", "Kontaktdaten, Ferien-Hinweis, Merkblätter");
+			st.href = E.settings;
 			var a = h("a", "wed-link", "Zu WordPress");
 			a.href = E.admin;
-			m.appendChild(u); m.appendChild(a);
+			m.appendChild(hb); m.appendChild(u); m.appendChild(st); m.appendChild(a);
 			bar.appendChild(m);
 		};
 		bar.appendChild(more);
@@ -157,6 +166,14 @@
 		}
 		var img = imageAt(x, y);
 		if (img) return { kind: "img", el: img };
+		// Anywhere else on a button or link (its padding): its text, link and hide options.
+		var a = target.closest("a");
+		if (a && !a.closest(NOEDIT)) {
+			var at = textNodes(a);
+			if (at.length && at.length <= 12) return { kind: "text", el: a, nodes: at };
+		}
+		var u = L.unitsOf(target);
+		if (u.card || u.section) return { kind: "block", el: u.card || u.section };
 		return null;
 	}
 
@@ -174,7 +191,7 @@
 		if (p && p.kind === "form") { toast("Dieser Teil wird vom Formular erzeugt und kann hier nicht geändert werden.", true); return; }
 		if (!p) { toast("Hier gibt es keinen Text und kein Foto zum Ändern."); return; }
 		setHl(p.el);
-		if (p.kind === "text") openText(p); else openImg(p.el);
+		if (p.kind === "text") openText(p); else if (p.kind === "img") openImg(p.el); else openBlock(p.el);
 	}, true);
 	window.addEventListener("mouseover", function (e) {
 		if (!on || inUi(e) || (panel && panel.classList.contains("wed-open"))) return;
@@ -233,6 +250,9 @@
 			panel.appendChild(box);
 			upd();
 		});
+		var a = p.el.closest("a") || (p.nodes[0].parentElement && p.nodes[0].parentElement.closest("a"));
+		if (a) linkBox(a);
+		hideBox(p.el);
 		panel.appendChild(h("p", "wed-note", "Die Änderung ist sofort sichtbar. Online geht sie erst mit «Speichern»."));
 		var first = panel.querySelector("textarea");
 		if (first) first.focus();
@@ -283,6 +303,8 @@
 		var grid = h("div", "wed-grid");
 		panel.appendChild(grid);
 		panel.appendChild(h("p", "wed-note", "Tipp: Querformat-Fotos wie das Original sehen am besten aus. Grosse Fotos werden beim Hochladen automatisch verkleinert."));
+		if (el.closest("a")) linkBox(el.closest("a"));
+		hideBox(el);
 
 		function upload(f) {
 			if (f.size > 15 * 1024 * 1024) { toast("Das Foto ist zu gross (max. 15 MB).", true); return; }
@@ -318,6 +340,99 @@
 					}
 				}).catch(function () { toast("Mediathek konnte nicht geladen werden.", true); });
 		}
+	}
+
+	// ---------- link of a button or text link ----------
+	function describe(href) {
+		if (!href) return "–";
+		if (href.indexOf("tel:") === 0) return "Anrufen (" + href.slice(4) + ")";
+		if (href.indexOf("mailto:") === 0) return "E-Mail an " + href.slice(7);
+		if (/wa\.me\//.test(href)) return "WhatsApp";
+		if (href.charAt(0) === "#") return "Seite oder Abschnitt dieser Website";
+		return href;
+	}
+	function linkBox(a) {
+		var href0 = a.dataset.wisiHref != null ? a.dataset.wisiHref : (a.getAttribute("href") || "");
+		var box = h("div", "wed-field");
+		box.appendChild(h("label", "wed-lbl", "Link: wohin führt dieser Knopf?"));
+		if (a.closest(".wwa-sec, #wisi-wafab") || /wa\.me\/[^?]*\?text=/.test(href0)) {
+			box.appendChild(h("p", "wed-note", "Dieser Knopf gehört zum Formular und sendet die Nachricht. Er lässt sich nicht umleiten."));
+			panel.appendChild(box);
+			return;
+		}
+		var key = L.linkKey(a), cur = draft.links[key];
+		var sel = h("select", "wed-in");
+		var opts = [["", "Wie bisher: " + describe(href0)]];
+		(E.pages || []).forEach(function (pg) { opts.push([pg.url, "Seite: " + pg.title]); });
+		opts.push([E.contact.tel, "Anrufen"], [E.contact.wa, "WhatsApp"], [E.contact.mail, "E-Mail schreiben"], ["*", "Andere Adresse (Internet-Link)…"]);
+		opts.forEach(function (o) { var op = h("option", null, o[1]); op.value = o[0]; sel.appendChild(op); });
+		var url = h("input", "wed-in");
+		url.placeholder = "https://…";
+		var blank = h("label", "wed-note");
+		var cb = h("input");
+		cb.type = "checkbox";
+		blank.appendChild(cb);
+		blank.appendChild(document.createTextNode(" In neuem Fenster öffnen"));
+		if (cur) {
+			var known = opts.some(function (o) { return o[0] === cur.href; });
+			sel.value = known ? cur.href : "*";
+			if (!known) url.value = cur.href;
+			cb.checked = !!cur.blank;
+		}
+		function sync() {
+			url.style.display = sel.value === "*" ? "" : "none";
+			var v = sel.value === "*" ? url.value.trim() : sel.value;
+			if (sel.value === "*" && v && !/^(https?:|tel:|mailto:)/i.test(v)) v = "https://" + v.replace(/^\/+/, "");
+			if (!sel.value || (sel.value === "*" && !url.value.trim())) delete draft.links[key];
+			else draft.links[key] = { href: v, blank: cb.checked };
+			preview();
+		}
+		sel.onchange = sync; url.oninput = sync; cb.onchange = sync;
+		box.appendChild(sel); box.appendChild(url); box.appendChild(blank);
+		url.style.display = sel.value === "*" ? "" : "none";
+		panel.appendChild(box);
+	}
+
+	// ---------- hide a card or a section ----------
+	function labelOf(u) { return (L.origText(u, 70) || u.className.split(" ")[0]).trim(); }
+	function hideBox(el) {
+		var u = L.unitsOf(el), items = [];
+		if (u.card) items.push([u.card, "Diese Karte ausblenden"]);
+		if (u.section) items.push([u.section, "Diesen ganzen Abschnitt ausblenden"]);
+		if (!items.length) return;
+		var box = h("div", "wed-field wed-hide");
+		box.appendChild(h("label", "wed-lbl", "Ausblenden"));
+		items.forEach(function (it) {
+			var b = h("button", "wed-btn", it[1]);
+			b.onmouseenter = function () { setHl(it[0]); };
+			b.onclick = function () {
+				draft.hidden[L.unitKey(it[0])] = labelOf(it[0]);
+				preview(); closePanel();
+				toast("Ausgeblendet. Online geht es erst mit «Speichern». Wieder anzeigen: ⋯ → Ausgeblendete Elemente.");
+			};
+			box.appendChild(b);
+		});
+		box.appendChild(h("p", "wed-note", "Nur ganze Karten und Abschnitte lassen sich ausblenden, damit das Layout stimmt."));
+		panel.appendChild(box);
+	}
+	function openBlock(el) {
+		head("Element");
+		if (el.closest("a")) linkBox(el.closest("a"));
+		hideBox(el);
+	}
+	function openHidden() {
+		head("Ausgeblendete Elemente");
+		var keys = Object.keys(draft.hidden);
+		if (!keys.length) { panel.appendChild(h("p", "wed-note", "Nichts ausgeblendet.")); return; }
+		keys.forEach(function (k) {
+			var row = h("div", "wed-field");
+			row.appendChild(h("div", null, draft.hidden[k] || k));
+			var b = h("button", "wed-link", "Wieder anzeigen");
+			b.onclick = function () { delete draft.hidden[k]; preview(); openHidden(); };
+			row.appendChild(b);
+			panel.appendChild(row);
+		});
+		panel.appendChild(h("p", "wed-note", "Mit «Speichern» online."));
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {

@@ -24,21 +24,24 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'WISI_SITE_HISTORY', 30 );
 
+require_once __DIR__ . '/settings.php';
+
 add_action( 'after_setup_theme', function () {
 	register_nav_menus( array( 'wisi_header' => 'Wisi: zusätzliche Links im Header' ) );
 } );
 
 function wisi_site_overrides() {
-	$o = get_option( 'wisi_overrides' );
-	return array(
-		'texts'  => ( is_array( $o ) && ! empty( $o['texts'] ) ) ? $o['texts'] : new stdClass(),
-		'images' => ( is_array( $o ) && ! empty( $o['images'] ) ) ? $o['images'] : new stdClass(),
-	);
+	$o   = get_option( 'wisi_overrides' );
+	$out = array();
+	foreach ( array( 'texts', 'images', 'links', 'hidden' ) as $k ) {
+		$out[ $k ] = ( is_array( $o ) && ! empty( $o[ $k ] ) ) ? $o[ $k ] : new stdClass();
+	}
+	return $out;
 }
 
 // Plain text only (the page sets it as text, never as HTML); photos only from this site's media library.
 function wisi_site_clean_overrides( $in ) {
-	$out = array( 'texts' => array(), 'images' => array() );
+	$out = array( 'texts' => array(), 'images' => array(), 'links' => array(), 'hidden' => array() );
 	if ( isset( $in['texts'] ) && is_array( $in['texts'] ) ) {
 		foreach ( $in['texts'] as $k => $v ) {
 			if ( ! is_string( $v ) || strlen( $k ) > 5000 || strlen( $v ) > 5000 ) {
@@ -62,6 +65,27 @@ function wisi_site_clean_overrides( $in ) {
 				'url' => $url,
 				'alt' => sanitize_text_field( isset( $img['alt'] ) ? $img['alt'] : '' ),
 			);
+		}
+	}
+	// Links: web addresses, phone, e-mail only (no javascript: and the like).
+	if ( isset( $in['links'] ) && is_array( $in['links'] ) ) {
+		foreach ( $in['links'] as $k => $l ) {
+			if ( strlen( $k ) > 2000 || ! is_array( $l ) || empty( $l['href'] ) ) {
+				continue;
+			}
+			$href = esc_url_raw( trim( (string) $l['href'] ), array( 'http', 'https', 'tel', 'mailto' ) );
+			if ( ! $href ) {
+				continue;
+			}
+			$out['links'][ wp_check_invalid_utf8( (string) $k ) ] = array( 'href' => $href, 'blank' => ! empty( $l['blank'] ) );
+		}
+	}
+	if ( isset( $in['hidden'] ) && is_array( $in['hidden'] ) ) {
+		foreach ( $in['hidden'] as $k => $label ) {
+			if ( strlen( $k ) > 2000 ) {
+				continue;
+			}
+			$out['hidden'][ wp_check_invalid_utf8( (string) $k ) ] = sanitize_text_field( (string) $label );
 		}
 	}
 	return $out;
@@ -182,7 +206,15 @@ function wisi_site_render( $route ) {
 	}
 
 	$seo  = wisi_site_seo( get_queried_object_id() );
-	$cfg  = array( 'route' => $route, 'map' => $map, 'title' => $seo['title'], 'overrides' => wisi_site_overrides(), 'menu' => $menu );
+	$cfg  = array(
+		'route'        => $route,
+		'map'          => $map,
+		'title'        => $seo['title'],
+		'overrides'    => wisi_site_overrides(),
+		'menu'         => $menu,
+		'notice'       => array( 'text' => wisi_site_notice() ),
+		'merkblaetter' => wisi_site_merkblaetter(),
+	);
 	$js   = file_get_contents( __DIR__ . '/boot.js' ) . file_get_contents( __DIR__ . '/live.js' );
 	$edit = '';
 	if ( current_user_can( 'edit_pages' ) ) {
@@ -191,6 +223,9 @@ function wisi_site_render( $route ) {
 			'media' => esc_url_raw( rest_url( 'wp/v2/media' ) ),
 			'nonce' => wp_create_nonce( 'wp_rest' ),
 			'admin' => esc_url_raw( admin_url( 'edit.php?post_type=page' ) ),
+			'settings' => esc_url_raw( admin_url( 'admin.php?page=wisi-website' ) ),
+			'pages'    => wisi_site_page_choices(),
+			'contact'  => wisi_site_contact_links(),
 		);
 		$js  .= file_get_contents( __DIR__ . '/editor.js' );
 		$edit = '<style>' . file_get_contents( __DIR__ . '/editor.css' ) . '</style>';
@@ -204,10 +239,11 @@ function wisi_site_render( $route ) {
 		array( plugins_url( 'app/', __FILE__ ), trailingslashit( wp_upload_dir()['baseurl'] ) ),
 		$html
 	);
+	$html = wisi_site_apply_contact( $html );
 	$html = preg_replace( '/<title>.*?<\/title>/s', '', $html, 1 );
 	// Literal insert: preg_replace would treat "$1" in edited texts as a back-reference.
 	$at   = strpos( $html, '<head>' ) + strlen( '<head>' );
-	$html = substr( $html, 0, $at ) . $boot . $seo['head'] . substr( $html, $at );
+	$html = substr( $html, 0, $at ) . $boot . wisi_site_apply_contact( $seo['head'] ) . substr( $html, $at );
 
 	status_header( 200 );
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -226,6 +262,7 @@ function wisi_site_seo( $id ) {
 		$title = get_the_title( $id ) . ' | Wisi Fensterdienst';
 	}
 	$url   = get_permalink( $id );
+	$set   = wisi_site_settings();
 	$image = plugins_url( 'app/og.jpg', __FILE__ );
 	$site  = home_url( '/' );
 
@@ -237,13 +274,13 @@ function wisi_site_seo( $id ) {
 		'url'        => $site,
 		'image'      => $image,
 		'logo'       => plugins_url( 'app/img/c1d15abd0d86.svg', __FILE__ ),
-		'telephone'  => '+41767018840',
-		'email'      => 'info@fensterdienst.ch',
+		'telephone'  => '+' . wisi_site_intl( $set['phone'] ),
+		'email'      => $set['email'],
 		'address'    => array(
 			'@type'           => 'PostalAddress',
-			'streetAddress'   => 'Albegg 2',
-			'postalCode'      => '8840',
-			'addressLocality' => 'Einsiedeln',
+			'streetAddress'   => $set['street'],
+			'postalCode'      => $set['plz'],
+			'addressLocality' => $set['ort'],
 			'addressRegion'   => 'SZ',
 			'addressCountry'  => 'CH',
 		),
@@ -277,4 +314,29 @@ function wisi_site_seo( $id ) {
 		. '<link rel="icon" href="' . esc_url( get_site_icon_url( 512 ) ?: plugins_url( 'app/img/c1d15abd0d86.svg', __FILE__ ) ) . '">'
 		. '<script type="application/ld+json">' . wp_json_encode( ( $id === (int) get_option( 'page_on_front' ) || '/' === get_post_meta( $id, 'wisi_route', true ) ) ? array( $business, $page ) : $page, JSON_UNESCAPED_UNICODE ) . '</script>';
 	return array( 'title' => $title, 'head' => $head );
+}
+
+// Link targets offered in the on-page editor: the website's pages first, then the other pages.
+function wisi_site_page_choices() {
+	$out = array();
+	$all = get_pages( array( 'post_status' => array( 'publish', 'draft' ), 'sort_column' => 'menu_order,post_title' ) );
+	usort( $all, function ( $a, $b ) {
+		return (int) ! get_post_meta( $a->ID, 'wisi_route', true ) - (int) ! get_post_meta( $b->ID, 'wisi_route', true );
+	} );
+	foreach ( $all as $p ) {
+		$out[] = array(
+			'title' => wp_strip_all_tags( get_the_title( $p ) ) . ( 'publish' === $p->post_status ? '' : ' (Entwurf)' ),
+			'url'   => get_permalink( $p ),
+		);
+	}
+	return $out;
+}
+
+function wisi_site_contact_links() {
+	$s = wisi_site_settings();
+	return array(
+		'tel'  => 'tel:+' . wisi_site_intl( $s['phone'] ),
+		'wa'   => 'https://wa.me/' . wisi_site_intl( $s['whatsapp'] ? $s['whatsapp'] : $s['phone'] ),
+		'mail' => 'mailto:' . $s['email'],
+	);
 }
