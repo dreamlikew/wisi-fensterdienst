@@ -213,10 +213,16 @@
 		top.appendChild(x);
 		panel.appendChild(top);
 	}
+	// Visible places only; the hover copy inside the same button or link counts once.
 	function countOnPage(orig) {
-		var n = 0, tw = document.createTreeWalker(document.body, 4, null), t;
-		while ((t = tw.nextNode())) if (t.parentElement && !t.parentElement.closest("#wisi-ed") && L.origOf(t) === orig) n++;
-		return n;
+		var seen = [], tw = document.createTreeWalker(document.body, 4, null), t;
+		while ((t = tw.nextNode())) {
+			var p = t.parentElement;
+			if (!p || p.closest("#wisi-ed") || L.origOf(t) !== orig || !visible(p)) continue;
+			var g = p.closest("a, button") || p;
+			if (seen.indexOf(g) < 0) seen.push(g);
+		}
+		return seen.length;
 	}
 
 	function openText(p) {
