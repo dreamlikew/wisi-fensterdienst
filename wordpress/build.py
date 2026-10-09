@@ -36,7 +36,7 @@ OG_IMAGE = "e51b91f485b6.webp"  # Martin mit Servicebus
 def main():
     shutil.rmtree(OUT, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "app", "img"))
-    for f in ("wisi-site.php", "boot.js"):
+    for f in ("wisi-site.php", "boot.js", "live.js", "editor.js", "editor.css"):
         shutil.copy(os.path.join(SRC_PLUGIN, f), OUT)
 
     renamed, saved = {}, 0

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wisi Fensterdienst – Website
  * Description: Zeigt die neue Wisi-Website (Repo dreamlikew/wisi-fensterdienst) auf allen Seiten mit dem Feld «wisi_route». Andere Seiten bleiben unverändert.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: BALI Flow
@@ -15,7 +15,114 @@ defined( 'ABSPATH' ) || exit;
  * Jede Seite mit dem Feld «wisi_route» (z. B. "/innerpages/contact-us") zeigt
  * app/index.html, die unveränderte Website, und öffnet direkt diese Route.
  * Links zwischen den Seiten führen auf die WordPress-Adressen der jeweiligen Seite.
+ *
+ * Texte und Fotos ändert man direkt auf der Seite («Seite bearbeiten», nur angemeldet).
+ * Die Änderungen liegen in der Option «wisi_overrides», nicht im Plugin: ein Update
+ * des Plugins behält sie. Zusätzliche Links im Header: Design → Menüs, Position
+ * «Wisi: zusätzliche Links im Header».
  */
+
+define( 'WISI_SITE_HISTORY', 30 );
+
+add_action( 'after_setup_theme', function () {
+	register_nav_menus( array( 'wisi_header' => 'Wisi: zusätzliche Links im Header' ) );
+} );
+
+function wisi_site_overrides() {
+	$o = get_option( 'wisi_overrides' );
+	return array(
+		'texts'  => ( is_array( $o ) && ! empty( $o['texts'] ) ) ? $o['texts'] : new stdClass(),
+		'images' => ( is_array( $o ) && ! empty( $o['images'] ) ) ? $o['images'] : new stdClass(),
+	);
+}
+
+// Plain text only (the page sets it as text, never as HTML); photos only from this site's media library.
+function wisi_site_clean_overrides( $in ) {
+	$out = array( 'texts' => array(), 'images' => array() );
+	if ( isset( $in['texts'] ) && is_array( $in['texts'] ) ) {
+		foreach ( $in['texts'] as $k => $v ) {
+			if ( ! is_string( $v ) || strlen( $k ) > 5000 || strlen( $v ) > 5000 ) {
+				continue;
+			}
+			$out['texts'][ wp_check_invalid_utf8( (string) $k ) ] = wp_check_invalid_utf8( str_replace( "\r", '', $v ) );
+		}
+	}
+	$uploads = wp_upload_dir()['baseurl'];
+	$uploads = preg_replace( '#^https?:#', '', $uploads );
+	if ( isset( $in['images'] ) && is_array( $in['images'] ) ) {
+		foreach ( $in['images'] as $id => $img ) {
+			if ( ! preg_match( '/^[0-9a-f]{12}$/', (string) $id ) || ! is_array( $img ) || empty( $img['url'] ) ) {
+				continue;
+			}
+			$url = esc_url_raw( $img['url'] );
+			if ( 0 !== strpos( preg_replace( '#^https?:#', '', $url ), $uploads ) ) {
+				continue;
+			}
+			$out['images'][ $id ] = array(
+				'url' => $url,
+				'alt' => sanitize_text_field( isset( $img['alt'] ) ? $img['alt'] : '' ),
+			);
+		}
+	}
+	return $out;
+}
+
+add_action( 'rest_api_init', function () {
+	$can = function () {
+		return current_user_can( 'edit_pages' );
+	};
+	register_rest_route( 'wisi/v1', '/overrides', array(
+		'methods'             => 'POST',
+		'permission_callback' => $can,
+		'callback'            => function ( WP_REST_Request $req ) {
+			$new  = wisi_site_clean_overrides( $req->get_json_params() );
+			$old  = get_option( 'wisi_overrides', array( 'texts' => array(), 'images' => array() ) );
+			$hist = get_option( 'wisi_overrides_history', array() );
+			if ( $old !== $new ) {
+				$hist[] = array( 'time' => time(), 'user' => get_current_user_id(), 'data' => $old );
+				$hist   = array_slice( $hist, -WISI_SITE_HISTORY );
+				update_option( 'wisi_overrides_history', $hist, false );
+				update_option( 'wisi_overrides', $new, false );
+			}
+			return array( 'overrides' => wisi_site_overrides() );
+		},
+	) );
+	register_rest_route( 'wisi/v1', '/undo', array(
+		'methods'             => 'POST',
+		'permission_callback' => $can,
+		'callback'            => function () {
+			$hist = get_option( 'wisi_overrides_history', array() );
+			$last = array_pop( $hist );
+			if ( $last ) {
+				update_option( 'wisi_overrides', $last['data'], false );
+				update_option( 'wisi_overrides_history', $hist, false );
+			}
+			return array( 'overrides' => wisi_site_overrides(), 'undone' => (bool) $last );
+		},
+	) );
+} );
+
+// In WordPress: «Auf der Seite bearbeiten» in the page list and a hint in the page editor.
+add_filter( 'page_row_actions', function ( $actions, $post ) {
+	if ( get_post_meta( $post->ID, 'wisi_route', true ) ) {
+		$actions = array( 'wisi_edit' => '<a href="' . esc_url( add_query_arg( 'wisi-edit', '1', get_permalink( $post ) ) ) . '"><strong>Texte und Fotos bearbeiten</strong></a>' ) + $actions;
+	}
+	return $actions;
+}, 10, 2 );
+
+add_action( 'admin_notices', function () {
+	$screen = get_current_screen();
+	if ( ! $screen || 'page' !== $screen->id || empty( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return;
+	}
+	$id = (int) $_GET['post']; // phpcs:ignore WordPress.Security.NonceVerification
+	if ( ! get_post_meta( $id, 'wisi_route', true ) ) {
+		return;
+	}
+	echo '<div class="notice notice-info"><p><strong>Diese Seite zeigt die Wisi-Website.</strong> Texte und Fotos ändern Sie direkt auf der Seite: '
+		. '<a class="button button-primary" href="' . esc_url( add_query_arg( 'wisi-edit', '1', get_permalink( $id ) ) ) . '">Texte und Fotos bearbeiten</a></p>'
+		. '<p>Hier im Editor nur Titel, Adresse (Permalink), Veröffentlichung und Yoast SEO ändern; der Inhalt unten wird nicht angezeigt.</p></div>';
+} );
 
 add_action( 'init', function () {
 	// wisi_seo_title / wisi_seo_desc: SEO-Titel und -Beschreibung (Deutsch). Yoast-Werte gehen vor, falls gesetzt.
@@ -64,9 +171,32 @@ function wisi_site_render( $route ) {
 		}
 	}
 
+	$menu = array();
+	$locs = get_nav_menu_locations();
+	if ( ! empty( $locs['wisi_header'] ) ) {
+		foreach ( (array) wp_get_nav_menu_items( $locs['wisi_header'] ) as $item ) {
+			if ( $item && ! $item->menu_item_parent && ( 'publish' === $item->post_status ) ) {
+				$menu[] = array( 'title' => wp_strip_all_tags( $item->title ), 'url' => esc_url_raw( $item->url ), 'blank' => '_blank' === $item->target );
+			}
+		}
+	}
+
 	$seo  = wisi_site_seo( get_queried_object_id() );
-	$cfg  = array( 'route' => $route, 'map' => $map, 'title' => $seo['title'] );
-	$boot = '<script>window.WISI_WP=' . wp_json_encode( $cfg ) . ';' . file_get_contents( __DIR__ . '/boot.js' ) . '</script>';
+	$cfg  = array( 'route' => $route, 'map' => $map, 'title' => $seo['title'], 'overrides' => wisi_site_overrides(), 'menu' => $menu );
+	$js   = file_get_contents( __DIR__ . '/boot.js' ) . file_get_contents( __DIR__ . '/live.js' );
+	$edit = '';
+	if ( current_user_can( 'edit_pages' ) ) {
+		$cfg['edit'] = array(
+			'rest'  => esc_url_raw( rest_url( 'wisi/v1/' ) ),
+			'media' => esc_url_raw( rest_url( 'wp/v2/media' ) ),
+			'nonce' => wp_create_nonce( 'wp_rest' ),
+			'admin' => esc_url_raw( admin_url( 'edit.php?post_type=page' ) ),
+		);
+		$js  .= file_get_contents( __DIR__ . '/editor.js' );
+		$edit = '<style>' . file_get_contents( __DIR__ . '/editor.css' ) . '</style>';
+	}
+	// wp_json_encode escapes "/", so no text can close the <script> early.
+	$boot = '<script>window.WISI_WP=' . wp_json_encode( $cfg ) . ';' . $js . '</script>' . $edit;
 
 	$html = file_get_contents( $file );
 	$html = str_replace(
@@ -75,7 +205,9 @@ function wisi_site_render( $route ) {
 		$html
 	);
 	$html = preg_replace( '/<title>.*?<\/title>/s', '', $html, 1 );
-	$html = preg_replace( '/<head>/', '<head>' . $boot . $seo['head'], $html, 1 );
+	// Literal insert: preg_replace would treat "$1" in edited texts as a back-reference.
+	$at   = strpos( $html, '<head>' ) + strlen( '<head>' );
+	$html = substr( $html, 0, $at ) . $boot . $seo['head'] . substr( $html, $at );
 
 	status_header( 200 );
 	header( 'Content-Type: text/html; charset=utf-8' );
