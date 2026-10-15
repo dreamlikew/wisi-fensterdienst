@@ -11691,7 +11691,7 @@ html body .wisi-prev-tit{white-space:normal!important;overflow:visible!important
 }
 </style><script id="wisi-kit" src="https://bali-feedback.pages.dev/kit.js" data-site="wisi" data-sections=".main-wrapper > section, .main-wrapper > div, .wf-wrap" data-root=".main-wrapper" data-langs="de,en,es" data-lang-key="wisiLang" data-lang="de" defer></script>
 <style id="wisi-m3">
-/* Martin, Runde 3 (Feedback 12.10. und Mail): kleinerer Werdegang, Liste in der Geschichte, Jirka, FAQ-Link im Fuss */
+/* Martin, Runde 3 (Feedback 12.10. und Mail): kleinerer Werdegang, Liste in der Geschichte, Jirka, FAQ-Link im Fuss, ganze Saetze bei «Wer kommt» */
 body .about-section .about-list-item-text b.h5-style{display:none!important}
 html body .wu-s-form .wfo-h{font-size:40px!important;line-height:1.1!important;letter-spacing:-1px!important;margin-bottom:28px!important}
 html body .wu-s-form .wbio-box h4{font-size:18px!important;line-height:1.3!important}
@@ -11757,7 +11757,16 @@ html body .wjk p.wjk-t{margin:0;font-size:16px;line-height:1.6;color:#5c5f66}
   function toFaq(){var go=false;try{go=sessionStorage.getItem("wisiToFaq")==="1";if(go)sessionStorage.removeItem("wisiToFaq");}catch(e){}if(go&&onAbout())scrollFaq();}
   document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.rf-faq");if(!a)return;
     if(onAbout()){e.preventDefault();scrollFaq();return;}try{sessionStorage.setItem("wisiToFaq","1");}catch(x){}},true);
-  function run(){try{faq();jirka();sonja();ba();hist();}catch(e){}}
+  // Start page, "Wer kommt zu Ihnen nach Hause?": the bold labels are hidden (feedback 27), so each line gets
+  // its subject back: "Martin kommt persönlich", "Fensterreparatur seit 1988", "Sonja hat im Büro alles im Griff".
+  var OWN=/^(Der Inhaber|The owner|El propietario)$/;
+  function whoList(){[].forEach.call(document.querySelectorAll(".about-section .about-list-item-text"),function(d){
+    var b=d.querySelector("b.h5-style"),s=d.querySelector(".text-md");if(!b||!s)return;
+    var lab=b.textContent.trim(),txt=s.textContent.trim();if(s.dataset.m3===txt)return;
+    var subj=OWN.test(lab)?"Martin":lab,out=subj+(lang()==="es"&&/^Sonja$/.test(lab)?", ":" ")+txt;
+    if(txt.indexOf(subj+" ")===0||txt.indexOf(subj+",")===0)out=txt;
+    s.textContent=out;s.dataset.m3=out;});}
+  function run(){try{faq();jirka();sonja();ba();hist();whoList();}catch(e){}}
   var q=0;function later(){if(q)return;q=1;setTimeout(function(){q=0;run();},120);}
   new MutationObserver(function(){var f=document.querySelector(".faq-section");if(f&&!f.id)f.id="faq";later();}).observe(document.documentElement,{childList:true,subtree:true});
   document.addEventListener("DOMContentLoaded",function(){run();toFaq();});window.addEventListener("hashchange",function(){later();toFaq();});run();
