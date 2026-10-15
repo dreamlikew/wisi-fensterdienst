@@ -11689,6 +11689,14 @@ html body .service-details-section .blog-details-banner-image{height:300px!impor
 /* S7. Título de la vista previa del WhatsApp: se cortaba con "…" */
 html body .wisi-prev-tit{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
 }
+@media (max-width:767px){
+/* S8. Werdegang de Martin: 52 px de margen a la izquierda dejaban la columna de texto en ~150 px y lo partian con guiones */
+html body section.wu-s-form dl.wu-tl,html body section.wu-s-form dl.wu-st{margin-left:6px!important}
+/* S9. Portada "Wer kommt zu Ihnen": los tres puntos clave como bloque centrado con los iconos alineados en columna (antes cada fila se centraba sola) */
+html body .about-list-wrapper:has(.wab-item){justify-items:start!important;width:max-content;max-width:100%;margin-left:auto;margin-right:auto}
+html body .about-list-wrapper .wab-item{justify-content:flex-start!important;text-align:left!important}
+html body .about-list-wrapper .wab-item .about-list-item-text{text-align:left!important}
+}
 </style><script id="wisi-kit" src="https://bali-feedback.pages.dev/kit.js" data-site="wisi" data-sections=".main-wrapper > section, .main-wrapper > div, .wf-wrap" data-root=".main-wrapper" data-langs="de,en,es" data-lang-key="wisiLang" data-lang="de" defer></script>
 <style id="wisi-m3">
 /* Martin, Runde 3 (Feedback 12.10. und Mail): kleinerer Werdegang, Liste in der Geschichte, Jirka, FAQ-Link im Fuss */
