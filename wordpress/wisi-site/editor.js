@@ -166,6 +166,12 @@
 		}
 		var img = imageAt(x, y);
 		if (img) return { kind: "img", el: img };
+		// Click in the empty part of a short line (beside the words): the paragraph or heading itself.
+		var tb = target.closest("p, h1, h2, h3, h4, h5, h6, li, dt, dd, label, blockquote, figcaption");
+		if (tb && !tb.closest(NOEDIT)) {
+			var tt = textNodes(tb);
+			if (tt.length && tt.length <= 12) return { kind: "text", el: tb, nodes: tt };
+		}
 		// Anywhere else on a button or link (its padding): its text, link and hide options.
 		var a = target.closest("a");
 		if (a && !a.closest(NOEDIT)) {
