@@ -11709,13 +11709,14 @@ html body .wbio-hist ul.whl li{margin:4px 0;font-size:16px;line-height:1.6;color
 html body .wbio-hist ul.whl li::marker{color:#009BD2}
 html body .wjk{display:flex;gap:20px;align-items:flex-start;margin-top:36px;padding:24px 28px;background:#f5f4f0;border-radius:14px;text-align:left}
 html body .wjk.wjk-span{grid-column:1/-1}
-html body .wjk-av{flex:0 0 auto;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#eaf7fd;color:#009BD2;font-size:22px;font-weight:700;letter-spacing:.5px}
+html body .wjk .wjk-ph{flex:0 0 170px!important;width:170px!important;max-width:none!important;height:212px!important;object-fit:cover;object-position:50% 30%;border-radius:10px;display:block}
 html body .wjk h3{margin:0;font-size:22px;line-height:1.25;color:#222222}
 html body .wjk .wjk-r{margin:4px 0 12px;font-size:15px;color:#5c5f66}
 html body .wjk p.wjk-t{margin:0;font-size:16px;line-height:1.6;color:#5c5f66}
 @media (max-width:767px){
   html body .wu-s-form .wfo-h{font-size:30px!important;letter-spacing:-.6px!important}
   html body .wjk{flex-direction:column;gap:14px;padding:20px}
+  html body .wjk .wjk-ph{flex:0 0 auto!important;width:100%!important;height:auto!important;aspect-ratio:4/3;object-position:50% 22%}
 }
 </style><script id="wisi-m3-js">
 (function(){
@@ -11730,7 +11731,7 @@ html body .wjk p.wjk-t{margin:0;font-size:16px;line-height:1.6;color:#5c5f66}
     var grid=c.parentElement,L=lang(),box=document.querySelector(".team-section .wjk");
     if(box&&box.dataset.l===L)return;
     if(!box){box=document.createElement("div");box.className="wjk wsg-nt";if(getComputedStyle(grid).display==="grid")box.classList.add("wjk-span");
-      box.innerHTML='<div class="wjk-av" aria-hidden="true">JH</div><div><h3>Jirka Hejtmanek</h3><p class="wjk-r"></p><p class="wjk-t"></p></div>';
+      box.innerHTML='<img class="wjk-ph" src="img/18e6ab1c2a00.jpg" alt="Jirka Hejtmanek" width="640" height="800" loading="lazy"><div><h3>Jirka Hejtmanek</h3><p class="wjk-r"></p><p class="wjk-t"></p></div>';
       if(box.classList.contains("wjk-span"))grid.appendChild(box);else grid.insertAdjacentElement("afterend",box);}
     box.dataset.l=L;box.querySelector(".wjk-r").textContent=JK[L].r;box.querySelector(".wjk-t").textContent=JK[L].t;
   }
