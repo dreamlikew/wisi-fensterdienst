@@ -7,7 +7,7 @@ Maqueta de la nueva web de **Wisi Fensterdienst GmbH** (Albegg 2, 8840 Einsiedel
 - Modo edición: desde el panel Debug. En modo edición se pueden reordenar las secciones de la portada arrastrando el asa azul; el orden se guarda en el navegador y "↺ Orden original" lo deshace.
 - Sin PIN: todas las páginas se ven directamente (el bloqueo se quitó el 23-09-2026).
 - Ratgeber (`#/ratgeber`): los 8 artículos de fensterdienst.pages.dev/ratgeber, en alemán (original), inglés y español, con pestañas y tarjetas; cada artículo tiene su propia página (`#/ratgeber/artikel#slug`).
-- Páginas interiores (23-09-2026): 6 servicios, Über uns, Kontakt, Für Verwaltungen (`#/verwaltungen`), Impressum (`#/impressum`) y Datenschutz (`#/datenschutz`), con el contenido de fensterdienst.pages.dev en DE/EN/ES. Las 6 de servicio, Über uns y Kontakt se rellenan con `herramientas/pages_data.py` (`patchDP.py`); Verwaltungen, Impressum y Datenschutz usan el diseño propio (`patchDO.py`, `pages_data2.py`). Los formularios envían por WhatsApp (no hay servidor). En Impressum faltan UID, MWST y seguro (el cliente los confirma).
+- Páginas interiores (23-09-2026): 6 servicios, Über uns, Kontakt, Für Verwaltungen (`#/verwaltungen`), Impressum (`#/impressum`) y Datenschutz (`#/datenschutz`), con el contenido de fensterdienst.pages.dev en DE/EN/ES. Las 6 de servicio, Über uns y Kontakt se rellenan con `herramientas/pages_data.py` (`patchDP.py`); Verwaltungen, Impressum y Datenschutz usan el diseño propio (`patchDO.py`, `pages_data2.py`). Los formularios envían por WhatsApp (no hay servidor).
 - Textos: nunca "Presupuesto / Quote / Offerte"; los botones invitan a escribir y a contar "tu problema".
 
 ## Ver la web
