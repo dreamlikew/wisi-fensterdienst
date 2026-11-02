@@ -1,0 +1,40 @@
+/* On-page editor (logged-in editors only). Everything is scoped to #wisi-ed; site styles are reverted inside it. */
+#wisi-ed, #wisi-ed * { all: revert; box-sizing: border-box; }
+#wisi-ed { font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1d2327; }
+#wisi-ed .wed-bar { position: fixed; left: 16px; bottom: 16px; z-index: 2147483000; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; max-width: calc(100vw - 110px); padding: 8px; background: #fff; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+#wisi-ed .wed-hint { padding: 0 6px; color: #50575e; font-size: 14px; }
+#wisi-ed .wed-btn { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #c3c4c7; border-radius: 8px; background: #fff; color: #1d2327; font: 600 14px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; cursor: pointer; }
+#wisi-ed .wed-btn:hover { border-color: #009bd2; }
+#wisi-ed .wed-main { background: #009bd2; border-color: #009bd2; color: #fff; }
+#wisi-ed .wed-main:disabled { background: #e7f5fb; border-color: #e7f5fb; color: #50575e; cursor: default; }
+#wisi-ed .wed-link { padding: 4px 0; border: 0; background: none; color: #007aa6; font: 14px system-ui, -apple-system, sans-serif; text-decoration: underline; cursor: pointer; }
+#wisi-ed .wed-more { position: absolute; left: 0; bottom: calc(100% + 8px); display: flex; flex-direction: column; gap: 4px; padding: 10px 14px; background: #fff; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+#wisi-ed .wed-panel { display: none; }
+#wisi-ed .wed-panel.wed-open { position: fixed; top: 16px; right: 16px; bottom: 16px; z-index: 2147483001; display: block; width: 380px; overflow-y: auto; padding: 16px; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.22); }
+#wisi-ed .wed-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 17px; }
+#wisi-ed .wed-x { width: 36px; height: 36px; border: 0; border-radius: 8px; background: #f0f0f1; font-size: 22px; line-height: 1; cursor: pointer; }
+#wisi-ed .wed-field { margin-bottom: 16px; }
+#wisi-ed .wed-ta, #wisi-ed .wed-in { display: block; width: 100%; padding: 10px; border: 1px solid #8c8f94; border-radius: 8px; font: 15px/1.45 system-ui, -apple-system, sans-serif; color: #1d2327; background: #fff; resize: vertical; }
+#wisi-ed .wed-ta:focus, #wisi-ed .wed-in:focus { outline: 2px solid #009bd2; border-color: #009bd2; }
+#wisi-ed .wed-orig { margin-top: 4px; font-size: 13px; color: #50575e; }
+#wisi-ed .wed-note { margin: 6px 0; font-size: 13px; color: #50575e; }
+#wisi-ed .wed-lbl { display: block; margin: 14px 0 4px; font-size: 13px; font-weight: 600; }
+#wisi-ed .wed-pv { display: block; width: 100%; max-height: 240px; object-fit: contain; margin-bottom: 12px; border-radius: 8px; background: #f0f0f1; }
+#wisi-ed .wed-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#wisi-ed .wed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
+#wisi-ed .wed-th { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; cursor: pointer; }
+#wisi-ed .wed-th:hover { outline: 3px solid #009bd2; }
+#wisi-ed .wed-moreimg { grid-column: 1 / -1; justify-content: center; }
+#wisi-ed .wed-toast { position: fixed; left: 50%; top: 16px; z-index: 2147483002; max-width: min(520px, calc(100vw - 32px)); padding: 12px 16px; border-radius: 10px; background: #1d2327; color: #fff; font-size: 14px; transform: translate(-50%, -120%); opacity: 0; transition: transform .25s, opacity .25s; pointer-events: none; }
+#wisi-ed .wed-toast.wed-show { transform: translate(-50%, 0); opacity: 1; }
+#wisi-ed .wed-toast.wed-bad { background: #b32d2e; }
+html.wisi-editing .wisi-ed-hl { outline: 2px dashed #009bd2 !important; outline-offset: 3px !important; cursor: pointer !important; }
+html.wisi-editing a, html.wisi-editing button { cursor: pointer; }
+@media (max-width: 700px) {
+	#wisi-ed .wed-bar { left: 8px; bottom: 8px; max-width: calc(100vw - 96px); }
+	#wisi-ed .wed-hint { display: none; }
+	#wisi-ed .wed-panel.wed-open { top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
+}
+#wisi-ed select.wed-in, #wisi-ed input.wed-in { margin-bottom: 6px; }
+#wisi-ed .wed-hide .wed-btn { margin: 0 6px 6px 0; }
+#wisi-ed .wed-more .wed-link { text-align: left; }

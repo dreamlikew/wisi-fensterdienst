@@ -40,3 +40,11 @@ La web es un único `index.html` estático: no hay que instalar nada ni compilar
 
 - Fotos: todas son de Wisi Fensterdienst GmbH.
 - Códigos postales: Amtliches Ortschaftenverzeichnis, © swisstopo (datos abiertos).
+
+## WordPress (fensterdienst.ch)
+
+La web se muestra en WordPress con el plugin propio `wordpress/wisi-site` (sin panel Debug ni Super Editar, con SEO por página).
+
+1. `python3 wordpress/build.py` genera `wordpress/dist/wisi-site.zip`.
+2. Subirlo en wp-admin → Plugins → Installieren → Plugin hochladen (sustituir la versión instalada).
+3. Páginas, rutas y textos SEO: `wordpress/pages.json`; `wordpress/sync_pages.py` crea o actualiza los borradores.
