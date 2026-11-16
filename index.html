@@ -11885,7 +11885,7 @@ html body .faq-section .faq-tabs-menu .faq-tab-link > div,html body .faq-section
     H.classList.toggle("wr-about",r==="#/innerpages/about-us");H.classList.toggle("wr-faq",r==="#/haeufige-fragen");H.classList.toggle("wr-svc",r==="#/innerpages/services");}
   function svc(){if(route()!=="#/innerpages/services")return;var h=document.querySelector(".services-banner-section .banner-title");if(h)setTxt(h,SV[lang()]);}
   // Vorher/Nachher: zwei Paare vertauscht (Haustüre, kleines Fenster)
-  var SW=[["c089ee681760","ee27136d8371"],["876dc61868bf","c9b6aa3423ba"]];
+  var SW=[["c089ee681760","ee27136d8371"],["876dc61868bf","c9b6aa3423ba"],["102153a952af","5d4f39769274"]];
   function ba(){[].forEach.call(document.querySelectorAll(".stc-wrap"),function(w){var b=w.querySelector(".stc-before img"),a=w.querySelector(".stc-after img");if(!a||!b)return;
     SW.forEach(function(p){if((b.getAttribute("src")||"").indexOf(p[0])>-1&&(a.getAttribute("src")||"").indexOf(p[1])>-1){var s=b.getAttribute("src"),t=b.alt;b.setAttribute("src",a.getAttribute("src"));b.alt=a.alt;a.setAttribute("src",s);a.alt=t;}});});}
   // Vertrauensleiste: das Lieferwagen-Icon ist flacher als die anderen, der Text daneben stand zu hoch
