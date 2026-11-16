@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wisi Fensterdienst – Website
  * Description: Zeigt die neue Wisi-Website (Repo dreamlikew/wisi-fensterdienst) auf allen Seiten mit dem Feld «wisi_route». Andere Seiten bleiben unverändert.
- * Version: 1.3.7
+ * Version: 1.3.8
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: BALI Flow
@@ -340,3 +340,36 @@ function wisi_site_contact_links() {
 		'mail' => 'mailto:' . $s['email'],
 	);
 }
+
+// Adressen der alten Website (vor November 2026) leiten dauerhaft (301) auf die passende neue Seite weiter.
+function wisi_site_old_redirects() {
+	return array(
+		'home'                                     => '/',
+		'news'                                     => '/',
+		'persoenlich'                              => '/ueber-uns/',
+		'martin-roellin'                           => '/ueber-uns/',
+		'martin-und-sonja-roellin-kaelin-2'        => '/ueber-uns/',
+		'beruflicher-werdegang-von-martin-roellin' => '/ueber-uns/',
+		'datenschutzerklaerung'                    => '/datenschutz/',
+		'pflegetipps'                              => '/merkblaetter/',
+		'katzentueren'                             => '/rund-ums-fenster/',
+		'dachfenster'                              => '/rund-ums-fenster/',
+		'insektenschutz'                           => '/rund-ums-fenster/',
+		'einbruchreparaturen'                      => '/rund-ums-fenster/',
+		'holzmetall-fenster'                       => '/holz-metall/',
+		'flugelmetall'                             => '/holz-metall/',
+		'beratung'                                 => '/kontakt/',
+		'schreinerservice-bei-wohnungsuebergaben'  => '/dienstleistungen/',
+	);
+}
+add_action( 'template_redirect', function () {
+	if ( ! is_404() ) {
+		return;
+	}
+	$path = trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ), '/' );
+	$map  = wisi_site_old_redirects();
+	if ( isset( $map[ $path ] ) ) {
+		wp_safe_redirect( home_url( $map[ $path ] ), 301 );
+		exit;
+	}
+} );
